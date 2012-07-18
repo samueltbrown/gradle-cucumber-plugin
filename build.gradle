@@ -1,0 +1,54 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+configurations {
+    source {
+        extendsFrom archives
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    groovy localGroovy()
+    compile 'info.cukes:cucumber-core:1.0.11'
+    testCompile 'junit:junit:4.10'
+}
+
+project.tasks.uploadArchives.dependsOn 'test'
+
+task jarSrc(type: Jar) {
+    classifier = 'src'
+    baseName = "${project.name}-src"
+    from sourceSets.main.java.srcDirs
+    from sourceSets.main.groovy.srcDirs
+}
+
+artifacts {
+    archives jarSrc
+}
+
+uploadArchives {
+    uploadDescriptor = true
+    repositories {
+        mavenDeployer {
+          repository(url: "file://${projectDir}/repo")
+        }
+    }
+    // this is hacky, but Gradle doesn't yet provide a way to publish non-archive objects
+    doLast {
+        copy {
+            from "${projectDir}/src/cucumberinit"
+            into "${projectDir}/repo/gradle-cucumber-plugin/gradle-cucumber-plugin/${version}/"
+        }
+    }
+}
+
+task createWrapper(type: Wrapper) {
+    gradleVersion = '1.0'
+}
