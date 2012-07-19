@@ -1,9 +1,9 @@
 package com.excella.gradle.cucumber;
 
+import cucumber.cli.Main;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import cucumber.cli.Main;
 
 /**
  * Mediates between plugin and Cucumber classes
@@ -18,7 +18,7 @@ public class CucumberRunner {
         Main.main(args.toArray(new String[args.size()]));
     }
 
-    public void runCucumberTests() throws Throwable {
+    public void runCucumberTests(List<String> glueDirs, List<String> tags) throws Throwable {
         List<String> args = new ArrayList<String>();
 
         cucumber.cli.Main.main(args.toArray(new String[args.size()]));
