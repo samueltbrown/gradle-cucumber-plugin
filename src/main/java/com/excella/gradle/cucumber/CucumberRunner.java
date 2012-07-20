@@ -1,5 +1,7 @@
 package com.excella.gradle.cucumber;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,14 @@ public class CucumberRunner {
         System.out.println("Cucumber runner args: ");
         for (String arg:args){
             System.out.println(arg + ", ");
+        }
+
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+        System.out.println("Class path entries: ");
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls){
+            System.out.println(url.getFile());
         }
 
         cucumber.cli.Main.main(args.toArray(new String[args.size()]));
