@@ -37,7 +37,7 @@ class CucumberPlugin  implements Plugin<Project> {
         project.tasks.withType(CucumberTask).whenTaskAdded {
             configureCucumberTask it
         }
-        CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: [ 'clean','build','cleanTest','test'], type: CucumberTask)
+        CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['test'], type: CucumberTask)
         cucumberTask.description = "Run Cucumber Acceptance Tests"
         cucumberTask.group = "Test"
 

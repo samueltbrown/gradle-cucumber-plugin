@@ -4,7 +4,7 @@
 		module="gradle-cucumber-plugin"
 		revision="0.1"
 		status="integration"
-		publication="20120719233747"
+		publication="20120720091112"
 	/>
 	<configurations>
 		<conf name="archives" visibility="public" description="Configuration for archive artifacts."/>
