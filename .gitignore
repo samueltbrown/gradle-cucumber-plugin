@@ -17,3 +17,6 @@
 /.apt_generated
 /out
 atlassian-ide-plugin.xml
+
+# Mac files
+*.DS_Store

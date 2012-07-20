@@ -35,12 +35,35 @@ class CucumberPlugin  implements Plugin<Project> {
         }
 
         project.tasks.withType(CucumberTask).whenTaskAdded {
-            it.runner = project.cucumberRunner
+            configureCucumberTask it
         }
         CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: [ 'clean','build','cleanTest','test'], type: CucumberTask)
         cucumberTask.description = "Run Cucumber Acceptance Tests"
-        coverageReport.group = "Test"
+        cucumberTask.group = "Test"
 
         project.dependencies.add('testRuntime',  "info.cukes:cucumber-junit:${project.cucumberJvmVersion}")
+    }
+
+    private def configureCucumberTask(CucumberTask cucumberTask) {
+        cucumberTask.runner = project.cucumberRunner
+        cucumberTask.conventionMapping.map('glueDirs') {
+            project.glueDirs
+        }
+        cucumberTask.conventionMapping.map('tags') {
+            project.tags
+        }
+        cucumberTask.conventionMapping.map('formats') {
+            project.formats
+        }
+        cucumberTask.conventionMapping.map('strict') {
+            project.strict
+        }
+        cucumberTask.conventionMapping.map('monochrome') {
+            project.monochrome
+        }
+        cucumberTask.conventionMapping.map('dryRun') {
+            project.dryRun
+        }
+
     }
 }

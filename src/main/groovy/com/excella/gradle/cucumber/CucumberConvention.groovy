@@ -22,19 +22,9 @@ class CucumberConvention {
     List<String> tags
 
     /**
-     * Output formatters for cucumber test results. Defaults to 'pretty'
+     * Output formats for cucumber test results. Defaults to 'pretty'
      */
-    List<String> formatters
-
-    /**
-     * ??
-     */
-    String name
-
-    /**
-     * ??
-     */
-    File dotCucumber;
+    List<String> formats
 
     /**
      * Execute a test dry run without actually executing tests. Defaults to false
@@ -42,7 +32,7 @@ class CucumberConvention {
     boolean dryRun = false
 
     /**
-     * Strict mode. Defaults to false
+     * Strict mode, fail if there are pending or skipped tests. Defaults to false
      */
     boolean strict = false
 
@@ -61,7 +51,7 @@ class CucumberConvention {
     CucumberConvention(Project project) {
         this.project = project
         glueDirs = ['src/test/resources']
-        formatters = ['pretty']
+        formats = ['pretty']
 
     }
 

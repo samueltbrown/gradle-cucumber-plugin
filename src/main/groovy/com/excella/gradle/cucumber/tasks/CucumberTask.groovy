@@ -15,9 +15,15 @@ import org.gradle.api.tasks.TaskAction
 class CucumberTask extends ConventionTask {
 
     def runner
+    List<String> glueDirs
+    List<String> tags
+    List<String> formats
+    boolean strict
+    boolean monochrome
+    boolean dryRun
 
     @TaskAction
     def cucumber() {
-        runner.runCucumberTests
+        runner.runCucumberTests getGlueDirs(), getTags(), getFormats(), getStrict(), getMonochrome(), getDryRun()
     }
 }

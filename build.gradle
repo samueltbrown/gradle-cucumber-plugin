@@ -23,19 +23,26 @@ dependencies {
 project.tasks.uploadArchives.dependsOn 'test'
 
 task jarSrc(type: Jar) {
-    classifier = 'src'
+    classifier = 'sources'
     baseName = "${project.name}-src"
     from sourceSets.main.java.srcDirs
     from sourceSets.main.groovy.srcDirs
 }
 
 artifacts {
-    archives jarSrc
+    archives(jarSrc) {
+        type = 'sources'
+    }
 }
 
 uploadArchives {
     uploadDescriptor = true
     repositories {
+        add (new org.apache.ivy.plugins.resolver.FileSystemResolver()) {
+            name = 'localIvyRepository'
+            addArtifactPattern "${projectDir}/repo/[organisation]/[module]/[revision]/[artifact]-[revision](.[ext])"
+            addIvyPattern "${projectDir}/repo/[organisation]/[module]/[revision]/ivy.xml"
+        }
         mavenDeployer {
           repository(url: "file://${projectDir}/repo")
         }

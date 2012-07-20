@@ -1,7 +1,5 @@
 package com.excella.gradle.cucumber;
 
-import cucumber.cli.Main;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +10,44 @@ import java.util.List;
  */
 public class CucumberRunner {
 
-    public void instrument() throws Throwable {
+    public void runCucumberTests(List<String> glueDirs, List<String> tags, List<String> formats,
+                                 boolean strict, boolean monochrome, boolean dryRun) throws Throwable {
         List<String> args = new ArrayList<String>();
 
-        Main.main(args.toArray(new String[args.size()]));
-    }
+        if (glueDirs != null) {
+            args.add("--glue");
+            for(String dir : glueDirs){
+                args.add(dir);
+            }
+        }
 
-    public void runCucumberTests(List<String> glueDirs, List<String> tags) throws Throwable {
-        List<String> args = new ArrayList<String>();
+        if (tags != null) {
+            args.add("--tags");
+            for(String tag : tags){
+                args.add(tag);
+            }
+        }
+
+        if (formats != null) {
+            for(String format : formats){
+                args.add("--format");
+                args.add(format);
+            }
+        }
+
+        if (strict){
+            args.add("--strict");
+        }
+
+        if (monochrome){
+            args.add("--monochrome");
+        }
+
+        if (dryRun){
+            args.add("--dry-run");
+        }
 
         cucumber.cli.Main.main(args.toArray(new String[args.size()]));
     }
+
 }
