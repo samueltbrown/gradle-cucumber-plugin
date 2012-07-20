@@ -30,7 +30,7 @@ class CucumberPlugin  implements Plugin<Project> {
                 extendsFrom project.configurations['testRuntime']
             }
             project.dependencies {
-                cucumber "info.cukes:cucumber-junit:${project.cucumberJvmVersion}" files("${jar.archivePath}")
+                cucumber "info.cukes:cucumber-junit:${project.cucumberJvmVersion}"
             }
         }
 
