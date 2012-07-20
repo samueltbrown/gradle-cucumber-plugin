@@ -24,20 +24,20 @@ class CucumberPlugin  implements Plugin<Project> {
 
         project.extensions.cucumberRunner = new CucumberRunner()
 
-        project.convention.plugins.cobertura = new CucumberConvention(project);
+        project.convention.plugins.cucumber = new CucumberConvention(project);
         if (!project.configurations.asMap['cucumber']) {
             project.configurations.add('cucumber') {
-                extendsFrom project.configurations['testCompile']
+                extendsFrom project.configurations['testRuntime']
             }
             project.dependencies {
-                cucumber "info.cukes:cucumber-junit:${project.cucumberJvmVersion}"
+                cucumber "info.cukes:cucumber-junit:${project.cucumberJvmVersion}" files("${jar.archivePath}")
             }
         }
 
         project.tasks.withType(CucumberTask).whenTaskAdded {
             configureCucumberTask it
         }
-        CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['test'], type: CucumberTask)
+        CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
         cucumberTask.description = "Run Cucumber Acceptance Tests"
         cucumberTask.group = "Test"
 

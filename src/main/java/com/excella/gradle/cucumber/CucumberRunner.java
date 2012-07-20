@@ -47,6 +47,11 @@ public class CucumberRunner {
             args.add("--dry-run");
         }
 
+        System.out.println("Cucumber runner args: ");
+        for (String arg:args){
+            System.out.println(arg + ", ");
+        }
+
         cucumber.cli.Main.main(args.toArray(new String[args.size()]));
     }
 
