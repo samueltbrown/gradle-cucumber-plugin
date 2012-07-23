@@ -25,12 +25,12 @@ class CucumberPlugin  implements Plugin<Project> {
         project.extensions.cucumberRunner = new CucumberRunner()
 
         project.convention.plugins.cucumber = new CucumberConvention(project);
-        if (!project.configurations.asMap['cucumber']) {
-            project.configurations.add('cucumber') {
+        if (!project.configurations.asMap['cucumberRuntime']) {
+            project.configurations.add('cucumberRuntime') {
                 extendsFrom project.configurations['testRuntime']
             }
             project.dependencies {
-                cucumber "${jar.archivePath}"
+                cucumberRuntime "${jar.archivePath}"
             }
         }
 
@@ -38,7 +38,7 @@ class CucumberPlugin  implements Plugin<Project> {
             configureCucumberTask it
         }
         CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
-        cucumberTask.description = "Run Cucumber Acceptance Tests"
+        cucumberTask.description = "Run Cucumber Acceptance Test"
         cucumberTask.group = "Verification"
 
         project.dependencies.add('testRuntime',  "info.cukes:cucumber-junit:${project.cucumberJvmVersion}")
@@ -65,7 +65,7 @@ class CucumberPlugin  implements Plugin<Project> {
             project.dryRun
         }
 
-        cucumberTask.classpath = project.configurations['cucumber']
+        cucumberTask.classpath = project.configurations['cucumberRuntime']
 
     }
 }
