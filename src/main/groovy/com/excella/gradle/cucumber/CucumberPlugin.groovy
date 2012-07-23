@@ -25,12 +25,13 @@ class CucumberPlugin  implements Plugin<Project> {
         project.extensions.cucumberRunner = new CucumberRunner()
 
         project.convention.plugins.cucumber = new CucumberConvention(project);
+
         if (!project.configurations.asMap['cucumberRuntime']) {
             project.configurations.add('cucumberRuntime') {
                 extendsFrom project.configurations['testRuntime']
             }
             project.dependencies {
-                cucumberRuntime "${jar.archivePath}"
+                cucumberRuntime files("${jar.archivePath}")
             }
         }
 
