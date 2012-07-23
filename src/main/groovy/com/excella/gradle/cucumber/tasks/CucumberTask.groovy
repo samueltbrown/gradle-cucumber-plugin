@@ -2,6 +2,7 @@ package com.excella.gradle.cucumber.tasks
 
 import org.gradle.api.internal.ConventionTask
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.testing.Test
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,7 @@ import org.gradle.api.tasks.TaskAction
  */
 
 
-class CucumberTask extends ConventionTask {
+class CucumberTask extends Test {
 
     def runner
     List<String> glueDirs
