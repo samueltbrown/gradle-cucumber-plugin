@@ -39,7 +39,7 @@ class CucumberPlugin  implements Plugin<Project> {
         }
         CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
         cucumberTask.description = "Run Cucumber Acceptance Tests"
-        cucumberTask.group = "Test"
+        cucumberTask.group = "Verification"
 
         project.dependencies.add('testRuntime',  "info.cukes:cucumber-junit:${project.cucumberJvmVersion}")
     }
@@ -64,6 +64,8 @@ class CucumberPlugin  implements Plugin<Project> {
         cucumberTask.conventionMapping.map('dryRun') {
             project.dryRun
         }
+
+        cucumberTask.classpath = project.configurations['cucumber']
 
     }
 }
