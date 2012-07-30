@@ -63,7 +63,6 @@ class CucumberPlugin  implements Plugin<Project> {
             project.dryRun
         }
         project.gradle.taskGraph.whenReady {
-            project.dependencies.add('cucumberRuntime',  files("${jar.archivePath}"))
             cucumberTask.classpath = project.configurations['cucumberRuntime']
 
         }
