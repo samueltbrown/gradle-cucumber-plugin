@@ -30,9 +30,6 @@ class CucumberPlugin  implements Plugin<Project> {
             project.configurations.add('cucumberRuntime') {
                 extendsFrom project.configurations['testRuntime']
             }
-            project.dependencies {
-                cucumberRuntime files("${jar.archivePath}")
-            }
         }
 
         project.tasks.withType(CucumberTask).whenTaskAdded {
@@ -65,8 +62,11 @@ class CucumberPlugin  implements Plugin<Project> {
         cucumberTask.conventionMapping.map('dryRun') {
             project.dryRun
         }
+        project.gradle.taskGraph.whenReady {
+            project.dependencies.add('cucumberRuntime',  files("${jar.archivePath}"))
+            cucumberTask.classpath = project.configurations['cucumberRuntime']
 
-        cucumberTask.classpath = project.configurations['cucumberRuntime']
+        }
 
     }
 }
