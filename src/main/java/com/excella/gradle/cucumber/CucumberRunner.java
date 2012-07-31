@@ -54,7 +54,7 @@ public class CucumberRunner {
             System.out.println(arg + ", ");
         }
 
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
         System.out.println("Class path entries: ");
         URL[] urls = ((URLClassLoader)cl).getURLs();
 
