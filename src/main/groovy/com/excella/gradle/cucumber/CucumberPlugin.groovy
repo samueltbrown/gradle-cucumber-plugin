@@ -47,6 +47,7 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('strict') { cucumberConvention.strict }
             cucumberTask.conventionMapping.map('monochrome') { cucumberConvention.monochrome }
             cucumberTask.conventionMapping.map('dryRun') { cucumberConvention.dryRun }
+            cucumberTask.runner = project.cucumberRunner
         }
 
         CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
