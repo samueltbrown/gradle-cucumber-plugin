@@ -29,6 +29,7 @@ class CucumberPlugin  implements Plugin<Project> {
 
         project.configurations.add(CUCUMBER_RUNTIME_CONFIGURATION_NAME).setVisible(false).setTransitive(true)
                 .setDescription('The Cucumber libraries to be used for this project.')
+                .extendsFrom(project.configurations.getByName('testRuntime'))
 
         CucumberConvention cucumberConvention = new CucumberConvention(project)
         project.convention.plugins.cucumber = cucumberConvention
