@@ -25,6 +25,8 @@ class CucumberPlugin  implements Plugin<Project> {
     void apply(Project project) {
         project.plugins.apply(JavaPlugin)
 
+        project.extensions.cucumberRunner = new CucumberRunner()
+
         project.configurations.add(CUCUMBER_RUNTIME_CONFIGURATION_NAME).setVisible(false).setTransitive(true)
                 .setDescription('The Cucumber libraries to be used for this project.')
 
@@ -45,7 +47,6 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('strict') { cucumberConvention.strict }
             cucumberTask.conventionMapping.map('monochrome') { cucumberConvention.monochrome }
             cucumberTask.conventionMapping.map('dryRun') { cucumberConvention.dryRun }
-            cucumberTask.conventionMapping.map('runner') {new CucumberRunner()}
         }
 
         CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
