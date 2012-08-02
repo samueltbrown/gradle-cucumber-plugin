@@ -5,6 +5,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.UncheckedIOException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.TaskAction
+import org.slf4j.LoggerFactory
+import org.slf4j.Logger
 
 /**
  *
@@ -16,6 +18,7 @@ import org.gradle.api.tasks.TaskAction
 
 
 class CucumberTask extends DefaultTask  {
+    static final Logger LOGGER = LoggerFactory.getLogger(CucumberTask.class)
 
     def runner
     List<String> glueDirs
