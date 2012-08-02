@@ -3,6 +3,7 @@ package com.excella.gradle.cucumber
 import com.excella.gradle.cucumber.tasks.CucumberTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPlugin
 
 /**
  * 
@@ -15,57 +16,40 @@ import org.gradle.api.Project
  * 
  */
 class CucumberPlugin  implements Plugin<Project> {
-    Project project
+
+    static final String CLASSPATH = 'classpath'
+    static final String CUCUMBER_RUNTIME_CONFIGURATION_NAME = 'cucumberRuntime'
+
 
     @Override
     void apply(Project project) {
-        this.project = project
-        project.apply plugin: 'java'
+        project.plugins.apply(JavaPlugin)
 
-        project.extensions.cucumberRunner = new CucumberRunner()
+        project.configurations.add(CUCUMBER_RUNTIME_CONFIGURATION_NAME).setVisible(false).setTransitive(true)
+                .setDescription('The Cucumber libraries to be used for this project.')
 
-        project.convention.plugins.cucumber = new CucumberConvention(project);
+        CucumberConvention cucumberConvention = new CucumberConvention(project)
+        project.convention.plugins.cucumber = cucumberConvention
 
-        if (!project.configurations.asMap['cucumberRuntime']) {
-            project.configurations.add('cucumberRuntime') {
-                extendsFrom project.configurations['testRuntime']
-            }
-        }
+        configureCucumberTask(project, cucumberConvention)
 
-        project.tasks.withType(CucumberTask).whenTaskAdded {
-            configureCucumberTask it
-        }
-        CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
-        cucumberTask.description = "Run Cucumber Acceptance Test"
-        cucumberTask.group = "Verification"
-
-        project.dependencies.add('testRuntime',  "info.cukes:cucumber-junit:${project.cucumberJvmVersion}")
     }
 
-    private def configureCucumberTask(CucumberTask cucumberTask) {
-        cucumberTask.runner = project.cucumberRunner
-        cucumberTask.conventionMapping.map('glueDirs') {
-            project.glueDirs
-        }
-        cucumberTask.conventionMapping.map('tags') {
-            project.tags
-        }
-        cucumberTask.conventionMapping.map('formats') {
-            project.formats
-        }
-        cucumberTask.conventionMapping.map('strict') {
-            project.strict
-        }
-        cucumberTask.conventionMapping.map('monochrome') {
-            project.monochrome
-        }
-        cucumberTask.conventionMapping.map('dryRun') {
-            project.dryRun
-        }
-        project.gradle.taskGraph.whenReady {
-            cucumberTask.classpath = project.configurations['cucumberRuntime']
-
+    private def configureCucumberTask(final Project project, CucumberConvention cucumberConvention) {
+        project.tasks.withType(CucumberTask).whenTaskAdded { CucumberTask cucumberTask ->
+            cucumberTask.conventionMapping.map('buildscriptClasspath') { project.buildscript.configurations.getByName(CLASSPATH).asFileTree }
+            cucumberTask.conventionMapping.map('cucumberClasspath') { project.configurations.getByName(CUCUMBER_RUNTIME_CONFIGURATION_NAME).asFileTree }
+            cucumberTask.conventionMapping.map('glueDirs') { cucumberConvention.glueDirs }
+            cucumberTask.conventionMapping.map('tags') { cucumberConvention.tags }
+            cucumberTask.conventionMapping.map('formats') { cucumberConvention.formats }
+            cucumberTask.conventionMapping.map('strict') { cucumberConvention.strict }
+            cucumberTask.conventionMapping.map('monochrome') { cucumberConvention.monochrome }
+            cucumberTask.conventionMapping.map('dryRun') { cucumberConvention.dryRun }
+            cucumberTask.conventionMapping.map('runner') {new CucumberRunner()}
         }
 
+        CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
+        cucumberTask.description = "Run Cucumber Acceptance Test"
+        cucumberTask.group = "Test"
     }
 }
