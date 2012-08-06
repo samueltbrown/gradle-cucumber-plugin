@@ -1,20 +1,36 @@
 package com.excella.gradle.cucumber;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Mediates between plugin and Cucumber classes
+ * Mediates between gradle cucumber task and cucumber-jvm execution.  Builds the argument list and then
+ * calls the cucumber cli.
  * 
- * Copyright 2012 Excella Consulting
+ * @author Samuel Brown
+ * @since 0.1
+ * @version 0.1
  */
 public class CucumberRunner {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(CucumberRunner.class);
 
     public void runCucumberTests(List<String> glueDirs, List<String> tags, List<String> formats,
                                  boolean strict, boolean monochrome, boolean dryRun) throws Throwable {
         List<String> args = new ArrayList<String>();
+
+
+        if (formats != null) {
+            for(String format : formats){
+                args.add("--format");
+                args.add(format);
+            }
+        }
 
         if (glueDirs != null) {
             args.add("--glue");
@@ -30,13 +46,6 @@ public class CucumberRunner {
             }
         }
 
-        if (formats != null) {
-            for(String format : formats){
-                args.add("--format");
-                args.add(format);
-            }
-        }
-
         if (strict){
             args.add("--strict");
         }
@@ -49,20 +58,25 @@ public class CucumberRunner {
             args.add("--dry-run");
         }
 
-        System.out.println("Cucumber runner args: ");
-        for (String arg:args){
-            System.out.println(arg + ", ");
-        }
-
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        System.out.println("Class path entries: ");
-        URL[] urls = ((URLClassLoader)cl).getURLs();
-
-        for(URL url: urls){
-            System.out.println(url.getFile());
+        if(LOGGER.isDebugEnabled()){
+            logParameters(args);
         }
 
         cucumber.cli.Main.main(args.toArray(new String[args.size()]));
     }
 
+    private void logParameters(List<String> args){
+        LOGGER.debug("Cucumber runner args: ");
+        for (String arg:args){
+            LOGGER.debug(arg + ", ");
+        }
+
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        LOGGER.debug("Cucumber class path entries: ");
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls){
+            LOGGER.debug(url.getFile());
+        }
+    }
 }

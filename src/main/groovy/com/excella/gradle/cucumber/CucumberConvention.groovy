@@ -3,10 +3,13 @@ package com.excella.gradle.cucumber
 import org.gradle.api.Project
 
 /**
+ * Parameters used in the cucumber task.  Convention pattern used to pass these parameters to the cucumber
+ * runner.
  *
- * User: samuelbrown
- * Date: 7/18/12
- * Time: 10:27 PM
+ *
+ * @author: Samuel Brown
+ * @since: 0.1
+ * @version 0.1
  *
  */
 class CucumberConvention {
@@ -14,7 +17,7 @@ class CucumberConvention {
     /**
      *  Directories to use as source for both feature files and step definitions. Defaults to [src/test/resources]
      */
-    List<String> glueDirs
+    List<String> glueDirs = ['src/test/java','src/test/resources']
 
     /**
      * Tags used to filter which scenarios should be run.
@@ -24,7 +27,7 @@ class CucumberConvention {
     /**
      * Output formats for cucumber test results. Defaults to 'pretty'
      */
-    List<String> formats
+    List<String> formats = ['pretty']
 
     /**
      * Execute a test dry run without actually executing tests. Defaults to false
@@ -50,9 +53,6 @@ class CucumberConvention {
 
     CucumberConvention(Project project) {
         this.project = project
-        glueDirs = ['src/test/resources']
-        formats = ['pretty']
-
     }
 
     def cucumber(Closure closure) {

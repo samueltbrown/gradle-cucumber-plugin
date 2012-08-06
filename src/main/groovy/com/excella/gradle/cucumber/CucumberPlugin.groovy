@@ -6,13 +6,13 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 
 /**
+ * Cucumber plugin definition.  This class initializes the plugin, sets up the convention mapping and adds
+ * the cucumber task as an available gradle task.
  * 
- * 
- * @author Sam Brown
- * @since 7/18/12
- * @version 1.0
+ * @author Samuel Brown
+ * @since 0.1
+ * @version 0.1
  *
- * Copyright 2012, Excella Consulting
  * 
  */
 class CucumberPlugin  implements Plugin<Project> {
@@ -52,7 +52,7 @@ class CucumberPlugin  implements Plugin<Project> {
         }
 
         CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
-        cucumberTask.description = "Run Cucumber Acceptance Test"
-        cucumberTask.group = "Test"
+        cucumberTask.description = "Run cucumber acceptance tests."
+        cucumberTask.group = "Verification"
     }
 }

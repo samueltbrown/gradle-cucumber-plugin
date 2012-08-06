@@ -9,10 +9,15 @@ import org.slf4j.LoggerFactory
 import org.slf4j.Logger
 
 /**
+ * Defines the cucumber task that can be used in a gradle build file.  This class creates its own
+ * classloader for use in task execution and then returns the classpath back to normal when finished
+ * for the rest of the gradle task calls.  This task will call the @see com.excella.gradle.cucumber.CucumberRunner
+ * to execute the main cucumber-jvm cli.
  *
- * User: samuelbrown
- * Date: 7/18/12
- * Time: 11:36 PM
+ *
+ * @author: Samuel Brown
+ * @since: 0.1
+ * @version 0.1
  *
  */
 
