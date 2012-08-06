@@ -1,6 +1,6 @@
 # Gradle Cucumber Plugin
 
-[Cucumber Logo] (https://a248.e.akamai.net/camo.github.com/d716f18fbcff34df385b5fcbdbfa21588e09aed4/687474703a2f2f63756b65732e696e666f2f696d616765732f637563756d6265725f6c6f676f2e706e67)
+![Cucumber Logo] (https://a248.e.akamai.net/camo.github.com/d716f18fbcff34df385b5fcbdbfa21588e09aed4/687474703a2f2f63756b65732e696e666f2f696d616765732f637563756d6265725f6c6f676f2e706e67)
 
 The gradle cucumber plugin provides the ability to run [cucumber](http://cukes.info) acceptance tests directly
 from a gradle build.  The plugin utilizes the cucumber cli provided by the [cucumber-jvm](https://github.com/cucumber/cucumber-jvm) project
