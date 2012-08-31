@@ -15,9 +15,14 @@ import org.gradle.api.Project
 class CucumberConvention {
 
     /**
-     *  Directories to use as source for both feature files and step definitions. Defaults to [src/test/resources]
+     *  Directories to use as source for step definitions. Defaults to [src/test/resources]
      */
-    List<String> glueDirs = ['src/test/java','src/test/resources']
+    List<String> glueDirs = ['src/test/java']
+	
+	/**
+	 * Directories to look for feature files.
+	 */
+	List<String> featureDirs = ['src/test/resources']
 
     /**
      * Tags used to filter which scenarios should be run.

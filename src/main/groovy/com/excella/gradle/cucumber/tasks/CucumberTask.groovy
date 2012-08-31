@@ -27,6 +27,7 @@ class CucumberTask extends DefaultTask  {
 
     def runner
     List<String> glueDirs
+	List<String> featureDirs
     List<String> tags
     List<String> formats
     boolean strict
@@ -82,6 +83,6 @@ class CucumberTask extends DefaultTask  {
     }
 
     private void executeCucumberRunner(){
-        runner.runCucumberTests getGlueDirs(), getTags(), getFormats(), getStrict(), getMonochrome(), getDryRun()
+        runner.runCucumberTests getGlueDirs(), getTags(), getFormats(), getStrict(), getMonochrome(), getDryRun(), getFeatureDirs()
     }
 }
