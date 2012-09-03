@@ -21,7 +21,7 @@ public class CucumberRunner {
     static final Logger LOGGER = LoggerFactory.getLogger(CucumberRunner.class);
 
     public void runCucumberTests(List<String> glueDirs, List<String> tags, List<String> formats,
-                                 boolean strict, boolean monochrome, boolean dryRun) throws Throwable {
+                                 boolean strict, boolean monochrome, boolean dryRun, List<String> featureDirs) throws Throwable {
         List<String> args = new ArrayList<String>();
 
 
@@ -33,8 +33,8 @@ public class CucumberRunner {
         }
 
         if (glueDirs != null) {
-            args.add("--glue");
             for(String dir : glueDirs){
+                args.add("--glue");
                 args.add(dir);
             }
         }
@@ -58,6 +58,12 @@ public class CucumberRunner {
             args.add("--dry-run");
         }
 
+        if (featureDirs != null) {
+        	for(String dir : featureDirs) {
+        		args.add(dir);
+        	}
+        }
+        
         if(LOGGER.isDebugEnabled()){
             logParameters(args);
         }
