@@ -4,7 +4,7 @@
 
 The gradle cucumber plugin provides the ability to run [cucumber](http://cukes.info) acceptance tests directly
 from a gradle build.  The plugin utilizes the cucumber cli provided by the [cucumber-jvm](https://github.com/cucumber/cucumber-jvm) project
-and should support any of the langues utilized in cucumber-jvm.
+and should support any of the languages utilized in cucumber-jvm.
 
 (Currently only tested with Java, Groovy, and JRuby more coming soon!)
 
