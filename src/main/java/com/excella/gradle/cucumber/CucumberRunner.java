@@ -68,7 +68,7 @@ public class CucumberRunner {
             logParameters(args);
         }
 
-        cucumber.cli.Main.main(args.toArray(new String[args.size()]));
+        cucumber.api.cli.Main.main(args.toArray(new String[args.size()]));
     }
 
     private void logParameters(List<String> args){
