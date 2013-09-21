@@ -40,8 +40,8 @@ class CucumberPlugin  implements Plugin<Project> {
 
     private def configureCucumberTask(final Project project, CucumberConvention cucumberConvention) {
         project.tasks.withType(CucumberTask).whenTaskAdded { CucumberTask cucumberTask ->
-            cucumberTask.conventionMapping.map('buildscriptClasspath') { project.buildscript.configurations.getByName(CLASSPATH).asFileTree }
-            cucumberTask.conventionMapping.map('cucumberClasspath') { project.configurations.getByName(CUCUMBER_RUNTIME_CONFIGURATION_NAME).asFileTree }
+            cucumberTask.conventionMapping.map('buildscriptClasspath') { project.buildscript.configurations.getByName(CLASSPATH) }
+            cucumberTask.conventionMapping.map('cucumberClasspath') { project.configurations.getByName(CUCUMBER_RUNTIME_CONFIGURATION_NAME) }
             cucumberTask.conventionMapping.map('glueDirs') { cucumberConvention.glueDirs }
 			cucumberTask.conventionMapping.map('featureDirs') { cucumberConvention.featureDirs }
             cucumberTask.conventionMapping.map('tags') { cucumberConvention.tags }
