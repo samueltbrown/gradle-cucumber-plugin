@@ -27,7 +27,7 @@ class CucumberPlugin  implements Plugin<Project> {
 
         project.extensions.cucumberRunner = new CucumberRunner()
 
-        project.configurations.add(CUCUMBER_RUNTIME_CONFIGURATION_NAME).setVisible(false).setTransitive(true)
+        project.configurations.create(CUCUMBER_RUNTIME_CONFIGURATION_NAME).setVisible(false).setTransitive(true)
                 .setDescription('The Cucumber libraries to be used for this project.')
                 .extendsFrom(project.configurations.getByName('testRuntime'))
 
@@ -52,7 +52,7 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.runner = project.cucumberRunner
         }
 
-        CucumberTask cucumberTask = project.tasks.add(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
+        CucumberTask cucumberTask = project.tasks.create(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
         cucumberTask.description = "Run cucumber acceptance tests."
         cucumberTask.group = "Verification"
     }

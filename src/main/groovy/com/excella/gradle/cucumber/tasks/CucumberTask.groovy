@@ -72,7 +72,12 @@ class CucumberTask extends DefaultTask  {
 
         for(File file : files) {
             try {
-                urls.add(file.toURI().toURL())
+                URL url = file.toURI().toURL()
+                if (file.isDirectory()) {
+                  // Without a trailing '/', URLClassLoader will not consider URLs as directory paths
+                  url = new URL(url.toExternalForm() + '/')
+                }
+                urls.add(url)
             }
             catch(MalformedURLException e) {
                 throw new UncheckedIOException(e)
