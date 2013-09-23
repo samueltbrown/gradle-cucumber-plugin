@@ -4,6 +4,8 @@ import org.apache.tools.ant.AntClassLoader
 import org.gradle.api.DefaultTask
 import org.gradle.api.UncheckedIOException
 import org.gradle.api.file.FileCollection
+import org.gradle.api.file.FileVisitDetails
+import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger
@@ -35,6 +37,7 @@ class CucumberTask extends DefaultTask  {
     boolean dryRun
     FileCollection buildscriptClasspath
     FileCollection cucumberClasspath
+    List<SourceSet> sourceSets
 
     @TaskAction
     def cucumber() {
@@ -72,12 +75,7 @@ class CucumberTask extends DefaultTask  {
 
         for(File file : files) {
             try {
-                URL url = file.toURI().toURL()
-                if (file.isDirectory()) {
-                  // Without a trailing '/', URLClassLoader will not consider URLs as directory paths
-                  url = new URL(url.toExternalForm() + '/')
-                }
-                urls.add(url)
+                urls.add(file.toURI().toURL())
             }
             catch(MalformedURLException e) {
                 throw new UncheckedIOException(e)
@@ -87,7 +85,28 @@ class CucumberTask extends DefaultTask  {
         urls.toArray(new URL[urls.size()]);
     }
 
+    private List<String> getOrDetectGlueDirs() {
+        List<String> dirs = getGlueDirs() ?: []
+        List<SourceSet> glueSourceSets = getSourceSets()
+        if (!dirs && glueSourceSets) {
+            glueSourceSets.each { sourceSet ->
+                // add all source dirs for non-Java-class implementations
+                sourceSet.allSource.srcDirs.each { srcDir ->
+                    dirs << srcDir.path
+                }
+
+                // add all subdirs of the classes dir for compiled implementations
+                sourceSet.output.asFileTree.visit { FileVisitDetails visitDetails ->
+                    if (visitDetails.isDirectory()) {
+                        dirs << "classpath:${visitDetails.relativePath.pathString.replaceAll(File.separator, '.')}".toString()
+                    }
+                }
+            }
+        }
+        dirs.unique()
+    }
+
     private void executeCucumberRunner(){
-        runner.runCucumberTests getGlueDirs(), getTags(), getFormats(), getStrict(), getMonochrome(), getDryRun(), getFeatureDirs()
+        runner.runCucumberTests getOrDetectGlueDirs(), getTags(), getFormats(), getStrict(), getMonochrome(), getDryRun(), getFeatureDirs()
     }
 }

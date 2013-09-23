@@ -1,6 +1,7 @@
 package com.excella.gradle.cucumber
 
 import org.gradle.api.Project
+import org.gradle.api.tasks.SourceSet
 
 /**
  * Parameters used in the cucumber task.  Convention pattern used to pass these parameters to the cucumber
@@ -15,12 +16,12 @@ import org.gradle.api.Project
 class CucumberConvention {
 
     /**
-     *  Directories to use as source for step definitions. Defaults to [src/test/resources]
+     *  Directories to use as source for step definitions. Defaults to [src/test/java]
      */
     List<String> glueDirs = ['src/test/java']
 	
 	/**
-	 * Directories to look for feature files.
+	 * Directories to look for feature files. Defaults to [src/test/resources]
 	 */
 	List<String> featureDirs = ['src/test/resources']
 
@@ -52,7 +53,14 @@ class CucumberConvention {
     /**
      * Version of cucumber-jvm to use to execute cucumber tests
      */
-    String cucumberJvmVersion = '1.0.11'
+    String cucumberJvmVersion = '1.1.5'
+
+    /**
+     * If specified, the resource directories of sourceSets will be used as feature directories and all other source
+     * directories will be contributed to the glue dirs. The runtime classpaths of sourceSets will be appended to the
+     * Cucumber classpath.
+     */
+    List<SourceSet> sourceSets
 
     private Project project
 
