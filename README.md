@@ -12,6 +12,7 @@ and should support any of the languages utilized in cucumber-jvm.
 
  * [Samuel Brown] (https://github.com/samueltbrown)
  * [Matthew Lucas] (https://github.com/lucas1000001)
+ * [Philippe Vosges] (https://github.com/viphe)
 
 ## Using the plugin in your gradle build script
 
