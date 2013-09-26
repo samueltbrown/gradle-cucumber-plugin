@@ -28,6 +28,9 @@ public class CucumberRunner {
         if (formats != null) {
             for(String format : formats){
                 args.add("--format");
+              if ("asyougo".equals(format)) {
+                format = AsYouGoFormatter.class.getName();
+              }
                 args.add(format);
             }
         }
@@ -68,7 +71,7 @@ public class CucumberRunner {
             logParameters(args);
         }
 
-        cucumber.cli.Main.main(args.toArray(new String[args.size()]));
+        cucumber.api.cli.Main.main(args.toArray(new String[args.size()]));
     }
 
     private void logParameters(List<String> args){

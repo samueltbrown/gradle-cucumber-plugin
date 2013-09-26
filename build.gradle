@@ -15,9 +15,9 @@ repositories {
 
 dependencies {
     compile gradleApi()
-    groovy localGroovy()
-    compile 'info.cukes:cucumber-core:1.0.11'
-    testCompile 'junit:junit:4.10'
+    compile localGroovy()
+    compile 'info.cukes:cucumber-core:1.1.5'
+    testCompile 'junit:junit:4.11'
 }
 
 project.tasks.uploadArchives.dependsOn 'test'
@@ -57,5 +57,5 @@ uploadArchives {
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.0'
+    gradleVersion = '1.7'
 }
