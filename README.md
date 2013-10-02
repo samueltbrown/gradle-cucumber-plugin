@@ -63,6 +63,10 @@ The cucumber task has several configurable properties:
         dryRun = false
     }
 
+## Prerequisites 
+
+You must use cucumber version <b>1.1.5</b> or higher.
+
 ## Coming Soon
 
 * Use of tags
