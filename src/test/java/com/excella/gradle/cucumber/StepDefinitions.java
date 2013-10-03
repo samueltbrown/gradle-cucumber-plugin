@@ -40,7 +40,7 @@ public class StepDefinitions {
   }
 
   @Given("^I have a new Gradle project \\(wrapper v([0-9.]+)\\) using Cucumber v([0-9.]+) for (compile|runtime)$")
-  public void I_have_a_new_Gradle_project_wrapper_(String wrapperVersion, String compileRuntime, String cucumberVersion)
+  public void I_have_a_new_Gradle_project_wrapper_(String wrapperVersion, String cucumberVersion, String compileRuntime)
   throws Throwable {
     projectHelper = helper.newProjectDir();
     buildHelper = projectHelper.createBuildScript(wrapperVersion);
@@ -80,7 +80,7 @@ public class StepDefinitions {
     processRunner.run();
 
     if (StringUtils.isNotBlank(successfully)) {
-      assertThat(processRunner.getExitCode(), is(0));
+      assertThat(processRunner.getErr(), processRunner.getExitCode(), is(0));
     }
   }
 

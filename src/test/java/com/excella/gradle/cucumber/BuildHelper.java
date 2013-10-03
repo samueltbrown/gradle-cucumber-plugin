@@ -18,6 +18,7 @@ public class BuildHelper {
   private List<String> buildscriptDependencies = new ArrayList<String>();
   private List<String> buildscriptRepositories = new ArrayList<String>();
   private List<String> dependencies = new ArrayList<String>();
+  private List<String> repositories = new ArrayList<String>();
   private List<String> applies = new ArrayList<String>();
   private String wrapperVersion;
   private List<String> tasks = new ArrayList<String>();
@@ -47,6 +48,11 @@ public class BuildHelper {
     return this;
   }
 
+  public BuildHelper repository(String repository) {
+    repositories.add(repository);
+    return this;
+  }
+
   public BuildHelper apply(String apply) {
     applies.add(apply);
     return this;
@@ -68,6 +74,7 @@ public class BuildHelper {
     if (runtimeOnly) {
       dependency("cucumberRuntime 'info.cukes:cucumber-java:" + cucumberVersion + "'");
     } else {
+      repository("mavenCentral()");
       dependency("cucumberCompile 'info.cukes:cucumber-core:" + cucumberVersion + "'");
       dependency("cucumberCompile 'info.cukes:cucumber-jvm:" + cucumberVersion + "'");
       dependency("cucumberCompile 'info.cukes:cucumber-java:" + cucumberVersion + "'");
@@ -109,17 +116,27 @@ public class BuildHelper {
     }
     script.append("\n");
 
+    script.append("repositories {\n");
+    for (String repository : repositories) {
+      script.append("  ").append(repository).append("\n");
+    }
+    script.append("}\n\n");
+
     script.append("dependencies {\n");
     for (String dependency : dependencies) {
       script.append("  ").append(dependency).append("\n");
     }
-    script.append("}\n");
+    script.append("}\n\n");
 
     for (String task : tasks) {
       script.append("\n" + task + "\n");
     }
 
     File scriptFile = projectHelper.newFile("build.gradle", script.toString());
+
+    System.out.println("=======================================================================");
+    System.out.println(script);
+    System.out.println("=======================================================================");
 
     new ProcessRunner(processBuilder("wrapper", "--stacktrace")).runStrict();
 
