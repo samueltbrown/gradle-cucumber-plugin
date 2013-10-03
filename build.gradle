@@ -17,8 +17,14 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'info.cukes:cucumber-core:1.1.5'
+
+    def CUCUMBER_VERSION = '1.1.5'
+    compile 'info.cukes:cucumber-core:' + CUCUMBER_VERSION
     testCompile 'junit:junit:4.11'
+    testCompile 'info.cukes:cucumber-junit:' + CUCUMBER_VERSION
+    testCompile 'info.cukes:cucumber-java:' + CUCUMBER_VERSION
+    testCompile 'commons-io:commons-io:2.4'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
 
 project.tasks.uploadArchives.dependsOn 'test'
@@ -92,4 +98,8 @@ uploadArchives {
 
 task createWrapper(type: Wrapper) {
     gradleVersion = '1.8'
+}
+
+task printMainRuntimeClasspath << {
+    sourceSets.main.runtimeClasspath.each { println it }
 }
