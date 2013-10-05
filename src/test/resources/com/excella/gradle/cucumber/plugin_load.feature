@@ -75,7 +75,6 @@ Feature: The Cucumber plugin should load and enrich the Gradle build
     And I should see a "(.*/)?build/classes/cucumber" line
     And I should see a "(.*/)?build/resources/cucumber" line
 
-  @current
   Scenario: The "cucumberClasses" task should depend on the "testClasses" task
     Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.5 for compile
     And I create a "src/cucumber" directory

@@ -84,9 +84,8 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('sourceSets') { getCucumberSourceSets(project, cucumberConvention) }
 
             cucumberTask.runner = project.cucumberRunner
-
             if (hasCucumberSourceSet) {
-                cucumberTask.dependsOn(project.getTasksByName('cucumberClasses', false))
+                cucumberTask.dependsOn(project.tasks.getByName('cucumberClasses'))
             }
         }
 

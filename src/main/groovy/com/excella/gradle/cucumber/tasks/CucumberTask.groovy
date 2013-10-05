@@ -101,7 +101,7 @@ class CucumberTask extends DefaultTask  {
                         String relativePath = file.path.substring(classesDirPathLength)
                         def packageDir = relativePath.
                             replaceAll(File.separator, '/'). // make sure we are dealing with slashes
-                            replaceFirst('/[^/]*$', ''). // remove the file name --> keep the parent dir path
+                            replaceFirst('/?[^/]*$', ''). // remove the file name --> keep the parent dir path
                             replaceAll('/', '.') // turn into a package name
                         packages << "classpath:${packageDir}".toString()
                     }

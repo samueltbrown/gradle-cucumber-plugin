@@ -67,6 +67,11 @@ public class StepDefinitions {
     projectHelper.newDir(dirPath);
   }
 
+  @Given("^I write \"([^\"]*)\" as follows$")
+  public void I_write_as_follows(String path, String content) throws Throwable {
+    projectHelper.newFile(path, content);
+  }
+
   @Given("^I add the following task$")
   public void I_add_the_following_task(String taskCode) throws Throwable {
     buildHelper.task(taskCode);
@@ -74,6 +79,7 @@ public class StepDefinitions {
 
   @When("^I (successfully)? run Gradle with \"([^\"]*)\"$")
   public void I_run_Gradle_with(String successfully, String gradleArgs) throws Throwable {
+    buildHelper.task("cucumber { monochrome = true }");
     buildHelper.build();
 
     processRunner = new ProcessRunner(buildHelper.processBuilder(gradleArgs.split(" ", -1)));
@@ -92,6 +98,6 @@ public class StepDefinitions {
   @Then("^I should see a \"([^\"]*)\" line$")
   public void I_should_see_a_line(String line) throws Throwable {
     assertThat(processRunner.getExitCode(), is(0));
-    assertThat(processRunner.getOut().trim(), containsRegex("^\\s*" + line + "\\s*$", Pattern.MULTILINE));
+    assertThat(processRunner.getOut().trim(), containsRegex("^\\s*" + Pattern.quote(line) + "\\s*$", Pattern.MULTILINE));
   }
 }
