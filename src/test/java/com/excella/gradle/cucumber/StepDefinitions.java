@@ -96,7 +96,7 @@ public class StepDefinitions {
     buildHelper.task(taskCode);
   }
 
-  @When("^I (successfully)? run Gradle with \"([^\"]*)\"$")
+  @When("^I( successfully)? run Gradle with \"([^\"]*)\"$")
   public void I_run_Gradle_with(String successfully, String gradleArgs) throws Throwable {
     buildHelper.task("cucumber { monochrome = true }");
     buildHelper.build();
@@ -117,7 +117,7 @@ public class StepDefinitions {
   @Then("^I should see a \"([^\"]*)\" line$")
   public void I_should_see_a_line(String line) throws Throwable {
     assertThat(processRunner.getExitCode(), is(0));
-    assertThat(processRunner.getOut().trim(), containsRegex("^\\s*" + Pattern.quote(line) + "\\s*$", Pattern.MULTILINE));
+    assertThat(processRunner.getOut().trim(), containsRegex("^\\s*" + line + "\\s*$", Pattern.MULTILINE));
   }
 
   @Then("^I should(n't| not)? see \"([^\"]*)\"$")

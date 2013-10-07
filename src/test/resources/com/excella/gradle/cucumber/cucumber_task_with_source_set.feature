@@ -28,8 +28,8 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
       }
       """
     When I successfully run Gradle with "cucumber"
-    Then I should see a "1 Scenarios (1 passed)" line
-    And I should see a "2 Steps (2 passed)" line
+    Then I should see a "1 Scenarios \(1 passed\)" line
+    And I should see a "2 Steps \(2 passed\)" line
 
     Examples:
       | feature path                             | class path                                      |
@@ -65,5 +65,5 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
       }
       """
     When I successfully run Gradle with "cucumber"
-    Then I should see a "1 Scenarios (1 passed)" line
-    And I should see a "2 Steps (2 passed)" line
+    Then I should see a "1 Scenarios \(1 passed\)" line
+    And I should see a "2 Steps \(2 passed\)" line
