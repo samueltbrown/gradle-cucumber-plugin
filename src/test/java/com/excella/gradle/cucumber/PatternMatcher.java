@@ -40,6 +40,11 @@ public class PatternMatcher extends TypeSafeMatcher<CharSequence> {
   }
 
   @Factory
+  public static Matcher<CharSequence> containsRegex(String regex) {
+    return new PatternMatcher(Pattern.compile(regex), true);
+  }
+
+  @Factory
   public static Matcher<CharSequence> containsRegex(String regex, int flags) {
     return new PatternMatcher(Pattern.compile(regex, flags), true);
   }

@@ -1,23 +1,21 @@
 package com.excella.gradle.cucumber;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.commons.lang.StringUtils;
-import org.hamcrest.Matchers;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.excella.gradle.cucumber.PatternMatcher.containsRegex;
-import static com.excella.gradle.cucumber.PatternMatcher.matchesRegex;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.hamcrest.Matchers.*;
 
 /**
  *
@@ -72,6 +70,27 @@ public class StepDefinitions {
     projectHelper.newFile(path, content);
   }
 
+  @Given("^I write a (\\w+) empty class \"([^\"]*)\"$")
+  public void I_write_an_empty_class(String sourceSet, String className) throws Throwable {
+    Matcher matcher = Pattern.compile("^(.*)\\.([^\\.]+)$").matcher(className);
+    String packageName;
+    String simpleClassName;
+    if (matcher.matches()) {
+      packageName = matcher.group(1);
+      simpleClassName = matcher.group(2);
+    } else {
+      throw new RuntimeException("not a class name (or empty package name): " + className);
+    }
+
+    String path = "src/" + sourceSet + "/java/" + className.replace('.', '/') + ".java";
+    projectHelper.newFile(
+      path,
+      "package " + packageName + ";\n" +
+      "public class " + simpleClassName + " {\n" +
+      "}"
+    );
+  }
+
   @Given("^I add the following task$")
   public void I_add_the_following_task(String taskCode) throws Throwable {
     buildHelper.task(taskCode);
@@ -99,5 +118,16 @@ public class StepDefinitions {
   public void I_should_see_a_line(String line) throws Throwable {
     assertThat(processRunner.getExitCode(), is(0));
     assertThat(processRunner.getOut().trim(), containsRegex("^\\s*" + Pattern.quote(line) + "\\s*$", Pattern.MULTILINE));
+  }
+
+  @Then("^I should(n't| not)? see \"([^\"]*)\"$")
+  public void I_shouldn_t_see(String not, String s) throws Throwable {
+    if (not.isEmpty()) {
+      assertThat(processRunner.getOut().trim(), containsRegex(Pattern.quote(s)));
+      assertThat(processRunner.getErr().trim(), containsRegex(Pattern.quote(s)));
+    } else {
+      assertThat(processRunner.getOut().trim(), not(containsRegex(Pattern.quote(s))));
+      assertThat(processRunner.getErr().trim(), not(containsRegex(Pattern.quote(s))));
+    }
   }
 }

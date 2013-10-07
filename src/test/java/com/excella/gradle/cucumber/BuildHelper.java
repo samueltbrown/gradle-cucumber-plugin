@@ -138,14 +138,24 @@ public class BuildHelper {
     //System.out.println(script);
     //System.out.println("=======================================================================");
 
-    new ProcessRunner(processBuilder("wrapper", "--stacktrace")).runStrict();
+    new ProcessRunner(processBuilder("--rerun-tasks", "createWrapper", "--stacktrace")).runStrict();
 
     return scriptFile;
   }
 
   public ProcessBuilder processBuilder(String... args) {
+    return processBuilder(true, args);
+  }
+
+  public ProcessBuilder processBuilder(boolean useWrapperScript, String... args) {
     List<String> command = new ArrayList<String>();
-    command.add(new File(projectHelper.getProjectDir(), "gradlew").getAbsolutePath());
+
+    if (useWrapperScript) {
+      command.add(new File(projectHelper.getProjectDir(), "gradlew").getAbsolutePath());
+    } else {
+      command.add("gradle");
+    }
+
     command.addAll(Arrays.asList(args));
     return new ProcessBuilder(command).directory(projectHelper.getProjectDir());
   }

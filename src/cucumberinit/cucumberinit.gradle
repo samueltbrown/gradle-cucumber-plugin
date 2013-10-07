@@ -12,7 +12,9 @@ buildscript {
 
     repositories {
         mavenCentral()
-        mavenRepo url: basePath
+        maven {
+          artifactUrls basePath
+        }
     }
     dependencies {
         classpath "com.github.samueltbrown:gradle-cucumber-plugin:${version}"
