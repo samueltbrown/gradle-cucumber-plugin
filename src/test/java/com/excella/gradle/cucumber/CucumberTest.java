@@ -9,6 +9,6 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-//@CucumberOptions(tags = {"@current"})
+@CucumberOptions(tags = {"@current"})
 public class CucumberTest {
 }

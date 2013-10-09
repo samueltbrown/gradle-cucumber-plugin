@@ -17,6 +17,8 @@ public class BuildHelper {
 
   private List<String> buildscriptDependencies = new ArrayList<String>();
   private List<String> buildscriptRepositories = new ArrayList<String>();
+  private List<String> sourceSets = new ArrayList<String>();
+  private List<String> configurations = new ArrayList<String>();
   private List<String> dependencies = new ArrayList<String>();
   private List<String> repositories = new ArrayList<String>();
   private List<String> applies = new ArrayList<String>();
@@ -43,6 +45,16 @@ public class BuildHelper {
     return this;
   }
 
+  public BuildHelper sourceSet(String sourceSet) {
+    sourceSets.add(sourceSet);
+    return this;
+  }
+
+  public BuildHelper configuration(String configuration) {
+    configurations.add(configuration);
+    return this;
+  }
+
   public BuildHelper dependency(String dependency) {
     dependencies.add(dependency);
     return this;
@@ -63,7 +75,10 @@ public class BuildHelper {
     return this;
   }
 
-  public void addCucumberPlugin(String cucumberVersion, boolean runtimeOnly) throws IOException {
+  public void addCucumberPlugin(String cucumberVersion, String cucumberSourceSetName, boolean runtimePlugin)
+  throws IOException {
+    final boolean isStandardCucumberSourceSet = "cucumber".equals(cucumberSourceSetName);
+
     buildscriptRepositories("mavenCentral()");
     for (String path : projectHelper.getCucumberPluginClasspath()) {
       buildscriptDependency("classpath files('" + path + "')");
@@ -71,13 +86,28 @@ public class BuildHelper {
 
     apply("apply plugin: " + CucumberPlugin.class.getName());
 
-    if (runtimeOnly) {
-      dependency("cucumberRuntime 'info.cukes:cucumber-java:" + cucumberVersion + "'");
+    if (!isStandardCucumberSourceSet) {
+      // it has to be declared explicitly
+      sourceSet(
+        cucumberSourceSetName + " {\n" +
+        "  java\n" +
+        "}\n");
+    }
+
+    if (runtimePlugin) {
+      dependency(cucumberSourceSetName + "Runtime 'info.cukes:cucumber-java:" + cucumberVersion + "'");
     } else {
       repository("mavenCentral()");
-      dependency("cucumberCompile 'info.cukes:cucumber-core:" + cucumberVersion + "'");
-      dependency("cucumberCompile 'info.cukes:cucumber-jvm:" + cucumberVersion + "'");
-      dependency("cucumberCompile 'info.cukes:cucumber-java:" + cucumberVersion + "'");
+      dependency(cucumberSourceSetName + "Compile 'info.cukes:cucumber-core:" + cucumberVersion + "'");
+      dependency(cucumberSourceSetName + "Compile 'info.cukes:cucumber-jvm:" + cucumberVersion + "'");
+      dependency(cucumberSourceSetName + "Compile 'info.cukes:cucumber-java:" + cucumberVersion + "'");
+    }
+
+    if (!isStandardCucumberSourceSet) {
+      configuration(cucumberSourceSetName + "Compile.extendsFrom(configurations.testCompile)");
+      configuration(cucumberSourceSetName + "Runtime.extendsFrom(configurations." + cucumberSourceSetName + "Compile)");
+      dependency(cucumberSourceSetName + "Compile sourceSets.test.output.dirs");
+      dependency(cucumberSourceSetName + "Runtime sourceSets." + cucumberSourceSetName + ".output.dirs");
     }
   }
 
@@ -116,6 +146,18 @@ public class BuildHelper {
     }
     script.append("\n");
 
+    script.append("sourceSets {\n");
+    for (String sourceSet : sourceSets) {
+      script.append("  ").append(sourceSet).append("\n");
+    }
+    script.append("}\n\n");
+
+    script.append("configurations {\n");
+    for (String configuration : configurations) {
+      script.append("  ").append(configuration).append("\n");
+    }
+    script.append("}\n\n");
+
     script.append("repositories {\n");
     for (String repository : repositories) {
       script.append("  ").append(repository).append("\n");
@@ -134,9 +176,9 @@ public class BuildHelper {
 
     File scriptFile = projectHelper.newFile("build.gradle", script.toString());
 
-    //System.out.println("=======================================================================");
-    //System.out.println(script);
-    //System.out.println("=======================================================================");
+    System.out.println("=======================================================================");
+    System.out.println(script);
+    System.out.println("=======================================================================");
 
     new ProcessRunner(processBuilder("--rerun-tasks", "createWrapper", "--stacktrace")).runStrict();
 

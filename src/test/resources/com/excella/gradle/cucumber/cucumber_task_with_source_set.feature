@@ -2,7 +2,6 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
 
   Background:
     Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.5 for compile
-    And I create a "src/cucumber" directory
 
   Scenario Outline: A feature file with empty step definitions
     Given I write "<feature path>" as follows
@@ -65,5 +64,44 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
       }
       """
     When I successfully run Gradle with "cucumber"
+    Then I should see a "1 Scenarios \(1 passed\)" line
+    And I should see a "2 Steps \(2 passed\)" line
+
+  @current
+  Scenario: the source set is at a custom location
+    Given my Cucumber source set is "intTest"
+    And I write "src/intTest/resources/com/my/my.feature" as follows
+      """
+      Feature: Feature Name
+
+        Scenario: Scenario Uno
+          Given precondition A
+          Then assertion B
+      """
+    And I write a main empty class "com.my.main.A"
+    And I write a test empty class "com.my.test.B"
+    And I write "src/intTest/java/com/my/MyStepDefinitions.java" as follows
+      """
+      import cucumber.api.java.en.*;
+
+      public class MyStepDefinitions {
+        @Given("^precondition A$")
+        public void precondition_A() throws Throwable {
+          new com.my.main.A();
+        }
+
+        @Then("^assertion B$")
+        public void assertion_B() throws Throwable {
+          new com.my.test.B();
+        }
+      }
+      """
+    And I add the following Gradle code
+      """
+      cucumber {
+        sourceSets = [project.sourceSets.intTest]
+      }
+      """
+    When I successfully run Gradle with "testClasses intTestClasses cucumber -d"
     Then I should see a "1 Scenarios \(1 passed\)" line
     And I should see a "2 Steps \(2 passed\)" line

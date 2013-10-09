@@ -26,6 +26,9 @@ public class StepDefinitions {
   private ProjectHelper projectHelper;
   private BuildHelper buildHelper;
   private ProcessRunner processRunner;
+  private String cucumberVersion;
+  private String cucumberSourceSetName = "cucumber";
+  private boolean runtimePlugin;
 
   @Before
   public void initHelper() throws IOException {
@@ -42,7 +45,13 @@ public class StepDefinitions {
   throws Throwable {
     projectHelper = helper.newProjectDir();
     buildHelper = projectHelper.createBuildScript(wrapperVersion);
-    buildHelper.addCucumberPlugin(cucumberVersion, !"compile".equals(compileRuntime));
+    this.cucumberVersion = cucumberVersion;
+    this.runtimePlugin = !"compile".equals(compileRuntime);
+  }
+
+  @Given("^my Cucumber source set is \"([^\"]*)\"")
+  public void my_Cucumber_source_set_is(String sourceSetName) {
+    this.cucumberSourceSetName = sourceSetName;
   }
 
   @When("^I list tasks$")
@@ -91,13 +100,14 @@ public class StepDefinitions {
     );
   }
 
-  @Given("^I add the following task$")
+  @Given("^I add the following (?:task|Gradle code)$")
   public void I_add_the_following_task(String taskCode) throws Throwable {
     buildHelper.task(taskCode);
   }
 
   @When("^I( successfully)? run Gradle with \"([^\"]*)\"$")
   public void I_run_Gradle_with(String successfully, String gradleArgs) throws Throwable {
+    buildHelper.addCucumberPlugin(cucumberVersion, cucumberSourceSetName, runtimePlugin);
     buildHelper.task("cucumber { monochrome = true }");
     buildHelper.build();
 
@@ -105,6 +115,7 @@ public class StepDefinitions {
     processRunner.run();
 
     if (StringUtils.isNotBlank(successfully)) {
+      System.out.println(processRunner.getOut());
       assertThat(processRunner.getErr(), processRunner.getExitCode(), is(0));
     }
   }

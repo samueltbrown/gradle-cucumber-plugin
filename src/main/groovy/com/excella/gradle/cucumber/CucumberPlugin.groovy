@@ -121,14 +121,20 @@ class CucumberPlugin  implements Plugin<Project> {
     }
 
     private def getFeaturesDir(final Project project, final CucumberConvention cucumberConvention) {
-        if (cucumberConvention.featureDirs) {
-            return cucumberConvention.featureDirs
+        if (!cucumberConvention.featureDirs && !cucumberConvention.sourceSets) {
+            return ['src/test/resources']
         }
 
         List<String> featureDirs = []
-        getSourceSets(project, cucumberConvention).each { sourceSet ->
-            sourceSet.resources.srcDirs.each { srcDir -> featureDirs << srcDir.path }
+
+        cucumberConvention.featureDirs.each { featureDir ->
+            project.file(featureDir).exists() && featureDirs << featureDir
         }
+
+        getSourceSets(project, cucumberConvention).each { sourceSet ->
+            sourceSet.resources.srcDirs.each { srcDir -> srcDir.exists() && featureDirs << srcDir.path }
+        }
+
         featureDirs
     }
 
