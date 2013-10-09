@@ -49,8 +49,8 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
     And I write a test empty class "com.my.test.B"
     And I write "src/cucumber/java/com/my/MyStepDefinitions.java" as follows
       """
+      package com.my;
       import cucumber.api.java.en.*;
-
       public class MyStepDefinitions {
         @Given("^precondition A$")
         public void precondition_A() throws Throwable {
@@ -82,8 +82,8 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
     And I write a test empty class "com.my.test.B"
     And I write "src/intTest/java/com/my/MyStepDefinitions.java" as follows
       """
+      package com.my;
       import cucumber.api.java.en.*;
-
       public class MyStepDefinitions {
         @Given("^precondition A$")
         public void precondition_A() throws Throwable {
@@ -102,6 +102,6 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
         sourceSets = [project.sourceSets.intTest]
       }
       """
-    When I successfully run Gradle with "testClasses intTestClasses cucumber -d"
+    When I successfully run Gradle with "intTestClasses cucumber"
     Then I should see a "1 Scenarios \(1 passed\)" line
     And I should see a "2 Steps \(2 passed\)" line

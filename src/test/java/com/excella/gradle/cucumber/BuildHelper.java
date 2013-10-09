@@ -177,9 +177,9 @@ public class BuildHelper {
 
     File scriptFile = projectHelper.newFile("build.gradle", script.toString());
 
-    System.out.println("=======================================================================");
-    System.out.println(script);
-    System.out.println("=======================================================================");
+//    System.out.println("=======================================================================");
+//    System.out.println(script);
+//    System.out.println("=======================================================================");
 
     new ProcessRunner(processBuilder("--rerun-tasks", "createWrapper", "--stacktrace")).runStrict();
 

@@ -88,7 +88,11 @@ class CucumberTask extends DefaultTask  {
     private List<String> getOrDetectGlueDirs() {
         List<String> dirs = getGlueDirs() ?: []
         List<SourceSet> glueSourceSets = getSourceSets()
-        if (!dirs && glueSourceSets) {
+
+        if (!dirs && !glueSourceSets) {
+            dirs = ['src/test/java'] // default
+
+        } else if (glueSourceSets) {
             glueSourceSets.each { sourceSet ->
                 // add output resources dir for non-Java-class implementations
                 dirs << sourceSet.output.resourcesDir.path

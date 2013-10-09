@@ -18,7 +18,7 @@ class CucumberConvention {
     /**
      *  Directories to use as source for step definitions. Defaults to [src/test/java]
      */
-    List<String> glueDirs = ['src/test/java']
+    List<String> glueDirs = []
 	
 	/**
 	 * Directories to look for feature files. Defaults to [src/test/resources]
