@@ -90,7 +90,8 @@ public class BuildHelper {
       // it has to be declared explicitly
       sourceSet(
         cucumberSourceSetName + " {\n" +
-        "  java\n" +
+        "  compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.intTestCompile\n" +
+        "  runtimeClasspath = output + compileClasspath + configurations.intTestRuntime\n" +
         "}\n");
     }
 
