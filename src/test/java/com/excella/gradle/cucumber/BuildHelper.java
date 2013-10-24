@@ -147,11 +147,13 @@ public class BuildHelper {
     }
     script.append("\n");
 
-    script.append("sourceSets {\n");
-    for (String sourceSet : sourceSets) {
-      script.append("  ").append(sourceSet).append("\n");
+    if (!sourceSets.isEmpty()) {
+      script.append("sourceSets {\n");
+      for (String sourceSet : sourceSets) {
+        script.append("  ").append(sourceSet).append("\n");
+      }
+      script.append("}\n\n");
     }
-    script.append("}\n\n");
 
     script.append("configurations {\n");
     for (String configuration : configurations) {
@@ -177,9 +179,9 @@ public class BuildHelper {
 
     File scriptFile = projectHelper.newFile("build.gradle", script.toString());
 
-//    System.out.println("=======================================================================");
-//    System.out.println(script);
-//    System.out.println("=======================================================================");
+    System.out.println("=======================================================================");
+    System.out.println(script);
+    System.out.println("=======================================================================");
 
     new ProcessRunner(processBuilder("--rerun-tasks", "createWrapper", "--stacktrace")).runStrict();
 

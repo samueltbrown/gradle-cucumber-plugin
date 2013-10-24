@@ -56,7 +56,7 @@ public class StepDefinitions {
 
   @When("^I list tasks$")
   public void I_list_tasks() throws Throwable {
-    buildHelper.build();
+    createBuildFile();
 
     processRunner = new ProcessRunner(buildHelper.processBuilder("tasks"));
     int exitCode = processRunner.run();
@@ -107,9 +107,7 @@ public class StepDefinitions {
 
   @When("^I( successfully)? run Gradle with \"([^\"]*)\"$")
   public void I_run_Gradle_with(String successfully, String gradleArgs) throws Throwable {
-    buildHelper.addCucumberPlugin(cucumberVersion, cucumberSourceSetName, runtimePlugin);
-    buildHelper.task("cucumber { monochrome = true }");
-    buildHelper.build();
+    createBuildFile();
 
     processRunner = new ProcessRunner(buildHelper.processBuilder(gradleArgs.split(" ", -1)));
     processRunner.run();
@@ -118,6 +116,12 @@ public class StepDefinitions {
       System.out.println(processRunner.getOut());
       assertThat(processRunner.getErr(), processRunner.getExitCode(), is(0));
     }
+  }
+
+  private void createBuildFile() throws IOException {
+    buildHelper.addCucumberPlugin(cucumberVersion, cucumberSourceSetName, runtimePlugin);
+    buildHelper.task("cucumber { monochrome = true }");
+    buildHelper.build();
   }
 
   @Then("^it should succeed$")
