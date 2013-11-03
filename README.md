@@ -94,6 +94,14 @@ The cucumber task has several configurable properties:
         dryRun = false
     }
 
+#### "asyougo" Formatter
+
+The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario lines as they are evaluated.
+
+    cucumber {
+        formats = ['asyougo']
+    }
+
 ## Prerequisites 
 
 You must use cucumber version <b>1.1.5</b> or higher.
@@ -105,7 +113,10 @@ You must use cucumber version <b>1.1.5</b> or higher.
 * Simplified task configuration
 * Command-line arguments to override task configuration
 
-## Pushing to Maven Central
+
+## Contributing
+
+### Pushing to Maven Central
 
 ```sh
 read -s -p "GPG pass: " GPG_PASS && \
