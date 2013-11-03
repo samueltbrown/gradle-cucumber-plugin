@@ -95,10 +95,10 @@ public class BuildHelper {
         "}\n");
     }
 
+    repository("mavenCentral()");
     if (runtimePlugin) {
       dependency(cucumberSourceSetName + "Runtime 'info.cukes:cucumber-java:" + cucumberVersion + "'");
     } else {
-      repository("mavenCentral()");
       dependency(cucumberSourceSetName + "Compile 'info.cukes:cucumber-core:" + cucumberVersion + "'");
       dependency(cucumberSourceSetName + "Compile 'info.cukes:cucumber-jvm:" + cucumberVersion + "'");
       dependency(cucumberSourceSetName + "Compile 'info.cukes:cucumber-java:" + cucumberVersion + "'");

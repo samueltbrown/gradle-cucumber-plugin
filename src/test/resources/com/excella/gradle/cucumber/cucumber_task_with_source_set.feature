@@ -1,4 +1,4 @@
-Feature: The "cucumber" task should should execute acceptance tests declared under "src/cucumber"
+Feature: The "cucumber" task should build and execute acceptance tests declared under "src/cucumber"
 
   Background:
     Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.5 for compile
@@ -67,7 +67,6 @@ Feature: The "cucumber" task should should execute acceptance tests declared und
     Then I should see a "1 Scenarios \(1 passed\)" line
     And I should see a "2 Steps \(2 passed\)" line
 
-  @current
   Scenario: the source set is at a custom location
     Given my Cucumber source set is "intTest"
     And I write "src/intTest/resources/com/my/my.feature" as follows

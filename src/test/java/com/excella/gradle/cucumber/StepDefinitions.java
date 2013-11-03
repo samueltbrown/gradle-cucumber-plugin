@@ -100,6 +100,11 @@ public class StepDefinitions {
     );
   }
 
+  @Given("^I declare the dependency \"([^\"]*)\"")
+  public void I_declare_the_dependency(String dependency) throws Throwable {
+    buildHelper.dependency(dependency);
+  }
+
   @Given("^I add the following (?:task|Gradle code)$")
   public void I_add_the_following_task(String taskCode) throws Throwable {
     buildHelper.task(taskCode);
