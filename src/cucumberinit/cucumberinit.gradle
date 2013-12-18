@@ -15,7 +15,7 @@ buildscript {
         mavenRepo url: basePath
     }
     dependencies {
-        classpath "gradle-cucumber-plugin:gradle-cucumber-plugin:${version}"
+        classpath "com.github.samueltbrown:gradle-cucumber-plugin:${version}"
     }
 }
 apply plugin: com.excella.gradle.cucumber.CucumberPlugin
