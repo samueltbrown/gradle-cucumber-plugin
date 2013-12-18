@@ -74,3 +74,19 @@ You must use cucumber version <b>1.1.5</b> or higher.
 * Simplified task configuration
 * Command-line arguments to override task configuration
 
+## Pushing to Maven Central
+
+```sh
+read -s -p "GPG pass: " GPG_PASS && \
+  read -s -p "Sonatype pass:" SONATYPE_PASS && \
+  ./gradlew \
+    -Psigning.secretKeyRingFile=path/to/ring.gpg \
+    -Psigning.keyId=KEYID \
+    -Psigning.password=$GPG_PASS \
+    -PsonatypeUsername=username \
+    -PsonatypePassword=$SONATYPE_PASS \
+    clean uploadArchives
+```
+
+It is possible to save some or all of those properties to ```~/.gradle/gradle.properties```.
+
