@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 configurations {
     source {
@@ -22,40 +23,73 @@ dependencies {
 
 project.tasks.uploadArchives.dependsOn 'test'
 
-task jarSrc(type: Jar) {
+task jarSources(type: Jar) {
     classifier = 'sources'
-    baseName = "${project.name}-src"
-    from sourceSets.main.java.srcDirs
-    from sourceSets.main.groovy.srcDirs
+    from sourceSets.main.allSource
+}
+
+task jarJavadoc(type: Jar, dependsOn: 'javadoc') {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 artifacts {
-    archives(jarSrc) {
-        type = 'sources'
-    }
+    archives jarSources
+    archives jarJavadoc
+}
+
+signing {
+    sign configurations.archives
 }
 
 uploadArchives {
-    uploadDescriptor = true
     repositories {
-        add (new org.apache.ivy.plugins.resolver.FileSystemResolver()) {
-            name = 'localIvyRepository'
-            addArtifactPattern "${projectDir}/repo/[organisation]/[module]/[revision]/[artifact]-[revision](.[ext])"
-            addIvyPattern "${projectDir}/repo/[organisation]/[module]/[revision]/ivy.xml"
-        }
         mavenDeployer {
-          repository(url: "file://${projectDir}/repo")
-        }
-    }
-    // this is hacky, but Gradle doesn't yet provide a way to publish non-archive objects
-    doLast {
-        copy {
-            from "${projectDir}/src/cucumberinit"
-            into "${projectDir}/repo/gradle-cucumber-plugin/gradle-cucumber-plugin/${version}/"
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: project.version.contains('-SNAPSHOT') ? "https://oss.sonatype.org/content/repositories/snapshots" : "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: project.properties['sonatypeUsername'], password: project.properties['sonatypePassword'])
+            }
+
+            pom.project {
+                name 'gradle-cucumber-plugin'
+                packaging 'jar'
+                description 'A Gradle plugin to run Cucumber tests'
+                url 'https://github.com/samueltbrown/gradle-cucumber-plugin/'
+
+                scm {
+                    url 'scm:git@github.com:samueltbrown/gradle-cucumber-plugin.git'
+                    connection 'scm:git@github.com:samueltbrown/gradle-cucumber-plugin.git'
+                    developerConnection 'scm:git@github.com:samueltbrown/gradle-cucumber-plugin.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The MIT License'
+                        url 'https://raw.github.com/samueltbrown/gradle-cucumber-plugin/master/LICENSE'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'samueltbrown'
+                        name 'Samuel Brown'
+                    }
+                    developer {
+                        id 'lucas1000001'
+                        name 'Matthew Lucas'
+                    }
+                    developer {
+                        id 'viphe'
+                        name 'Philippe Vosges'
+                    }
+                }
+            }
         }
     }
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.7'
+    gradleVersion = '1.8'
 }

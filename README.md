@@ -16,13 +16,28 @@ and should support any of the languages utilized in cucumber-jvm.
 
 ## Using the plugin in your gradle build script
 
-You can apply the plugin using the following buildscript directly from github:
+You can apply the plugin using the following ```buildscript```:
+
+      apply plugin: 'cucumber'
+
+      buildscript {
+          repositories {
+              mavenCentral()
+          }
+
+          dependencies {
+              classpath 'com.github.samueltbrown:gradle-cucumber-plugin:0.4.1'
+          }
+      }
+
+Older versions can be downloaded directly from GitHub like so;
 
       buildscript {
           apply from: 'https://github.com/samueltbrown/gradle-cucumber-plugin/raw/master/repo/gradle-cucumber-plugin/gradle-cucumber-plugin/0.3/cucumberinit.gradle'
       }
 
-Currently the version is set at <b>0.3</b> in the link but this can be updated the latest version as it becomes available.
+Currently the version is set at <b>0.4.1</b> in the link but this can be updated to the latest version as it becomes available.
+
 Once the plugin has been applied, the project dependencies need to be updated with the archive path to your jar file
 as well as the cucumber-jvm jar file needed for your language.  Below 'groovy' is the chosen language.
 
@@ -73,4 +88,20 @@ You must use cucumber version <b>1.1.5</b> or higher.
 * Automatic dependency retrieval and default glue dirs for each jvm language
 * Simplified task configuration
 * Command-line arguments to override task configuration
+
+## Pushing to Maven Central
+
+```sh
+read -s -p "GPG pass: " GPG_PASS && \
+  read -s -p "Sonatype pass:" SONATYPE_PASS && \
+  ./gradlew \
+    -Psigning.secretKeyRingFile=path/to/ring.gpg \
+    -Psigning.keyId=KEYID \
+    -Psigning.password=$GPG_PASS \
+    -PsonatypeUsername=username \
+    -PsonatypePassword=$SONATYPE_PASS \
+    clean uploadArchives
+```
+
+It is possible to save some or all of those properties to ```~/.gradle/gradle.properties```.
 
