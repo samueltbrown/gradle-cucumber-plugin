@@ -40,13 +40,14 @@ Currently the version is set at <b>0.4.1</b> in the link but this can be updated
 
 ### Running the Tests only
 
-Once the plugin has been applied, the project dependencies need to be updated with the archive path to your jar file
-as well as the cucumber-jvm jar file needed for your language.  Below 'groovy' is the chosen language.
+Once the plugin has been applied, the project dependencies need to be updated with the cucumber-jvm jar file needed for
+your language.  Below 'groovy' is the chosen language.
 
       dependencies {
 
-      	cucumberRuntime files("${jar.archivePath}"),
-                        'info.cukes:cucumber-groovy:1.1.5'
+        ...
+
+      	cucumberRuntime 'info.cukes:cucumber-groovy:1.1.5'
 
       }
 
@@ -54,7 +55,7 @@ as well as the cucumber-jvm jar file needed for your language.  Below 'groovy' i
 
 If you have a ```src/cucumber``` source set (similar to ```src/test```), the plugin will automatically detect it and
 setup Java tasks and configurations for you. The "cucumber" code unit depends on "test", the same way "test" depends on
-"main". You still need to choose your library dependencies:
+"main". Also, choose your library dependencies:
 
       dependencies {
 
@@ -62,7 +63,7 @@ setup Java tasks and configurations for you. The "cucumber" code unit depends on
 
       }
 
-You can put your feature files under ```src/cucumber/resources```.
+Write your feature files under ```src/cucumber/resources```.
 
 ## Available Tasks
 
