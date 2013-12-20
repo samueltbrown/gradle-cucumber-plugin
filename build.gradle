@@ -97,9 +97,11 @@ uploadArchives {
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.8'
+    gradleVersion = '1.10'
 }
 
-task printMainRuntimeClasspath << {
+task printMainRuntimeClasspath {
+    description 'Prints the runtime classpath of the built artifact (used by Cucumber acceptance tests)'
+} << {
     sourceSets.main.runtimeClasspath.each { println it }
 }
