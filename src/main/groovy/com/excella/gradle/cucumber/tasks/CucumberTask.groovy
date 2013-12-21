@@ -4,7 +4,6 @@ import org.apache.tools.ant.AntClassLoader
 import org.gradle.api.DefaultTask
 import org.gradle.api.UncheckedIOException
 import org.gradle.api.file.FileCollection
-import org.gradle.api.file.FileVisitDetails
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory

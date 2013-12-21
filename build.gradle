@@ -27,8 +27,6 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
 
-project.tasks.uploadArchives.dependsOn 'test'
-
 task jarSources(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
