@@ -17,11 +17,15 @@ repositories {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'info.cukes:cucumber-core:1.1.5'
-    testCompile 'junit:junit:4.11'
-}
 
-project.tasks.uploadArchives.dependsOn 'test'
+    def CUCUMBER_VERSION = '1.1.5'
+    compile 'info.cukes:cucumber-core:' + CUCUMBER_VERSION
+    testCompile 'junit:junit:4.11'
+    testCompile 'info.cukes:cucumber-junit:' + CUCUMBER_VERSION
+    testCompile 'info.cukes:cucumber-java:' + CUCUMBER_VERSION
+    testCompile 'commons-io:commons-io:2.4'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+}
 
 task jarSources(type: Jar) {
     classifier = 'sources'
@@ -91,5 +95,11 @@ uploadArchives {
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.8'
+    gradleVersion = '1.10'
+}
+
+task printMainRuntimeClasspath {
+    description 'Prints the runtime classpath of the built artifact (used by Cucumber acceptance tests)'
+} << {
+    sourceSets.main.runtimeClasspath.each { println it }
 }

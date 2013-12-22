@@ -3,6 +3,7 @@ package com.excella.gradle.cucumber
 import com.excella.gradle.cucumber.tasks.CucumberTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.SourceSet
@@ -40,13 +41,23 @@ class CucumberPlugin  implements Plugin<Project> {
 
         hasCucumberSourceSet = project.file('src/cucumber').exists()
         if (hasCucumberSourceSet) {
-            project.sourceSets.maybeCreate(CUCUMBER_SOURCE_SET_NAME)
-            project.configurations.getByName(CUCUMBER_COMPILE_CONFIGURATION_NAME).setVisible(true).setTransitive(true)
+            SourceSet cucumberSourceSet = project.sourceSets.maybeCreate(CUCUMBER_SOURCE_SET_NAME)
+            SourceSet mainSourceSet = project.sourceSets.main
+            SourceSet testSourceSet = project.sourceSets.test
+
+            Configuration cucumberCompile = project.configurations.getByName(cucumberSourceSet.compileConfigurationName)
+            cucumberCompile
+                .setVisible(true)
+                .setTransitive(true)
                 .setDescription('The Cucumber classes to be used for this project.')
-                .extendsFrom(project.configurations.getByName('testRuntime'))
-            project.configurations.getByName(CUCUMBER_RUNTIME_CONFIGURATION_NAME).setVisible(true).setTransitive(true)
+                .extendsFrom(project.configurations.testCompile)
+            project.dependencies.add(cucumberSourceSet.compileConfigurationName, mainSourceSet.output)
+            project.dependencies.add(cucumberSourceSet.compileConfigurationName, testSourceSet.output)
+
+            project.configurations.getByName(cucumberSourceSet.runtimeConfigurationName)
+                .setVisible(true)
+                .setTransitive(true)
                 .setDescription('The Cucumber libraries to be used for this project.')
-                .extendsFrom(project.configurations.getByName(CUCUMBER_COMPILE_CONFIGURATION_NAME))
 
             // don't use defaults if the cucumber source set exists
             cucumberConvention.featureDirs = []
@@ -73,9 +84,8 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('sourceSets') { getCucumberSourceSets(project, cucumberConvention) }
 
             cucumberTask.runner = project.cucumberRunner
-
             if (hasCucumberSourceSet) {
-                cucumberTask.dependsOn(project.getTasksByName('cucumberClasses', false))
+                cucumberTask.dependsOn(project.tasks.getByName('cucumberClasses'))
             }
         }
 
@@ -111,14 +121,22 @@ class CucumberPlugin  implements Plugin<Project> {
     }
 
     private def getFeaturesDir(final Project project, final CucumberConvention cucumberConvention) {
-        if (cucumberConvention.featureDirs) {
-            return cucumberConvention.featureDirs
+        def sourceSets = getSourceSets(project, cucumberConvention)
+
+        if (!cucumberConvention.featureDirs && !sourceSets) {
+            return ['src/test/resources']
         }
 
         List<String> featureDirs = []
-        getSourceSets(project, cucumberConvention).each { sourceSet ->
-            sourceSet.resources.srcDirs.each { srcDir -> featureDirs << srcDir.path }
+
+        cucumberConvention.featureDirs.each { featureDir ->
+            project.file(featureDir).exists() && featureDirs << featureDir
         }
+
+        sourceSets.each { sourceSet ->
+            sourceSet.resources.srcDirs.each { srcDir -> srcDir.exists() && featureDirs << srcDir.path }
+        }
+
         featureDirs
     }
 

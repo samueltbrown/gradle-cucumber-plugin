@@ -12,7 +12,13 @@ buildscript {
 
     repositories {
         mavenCentral()
-        mavenRepo url: basePath
+        if (gradle.gradleVersion < '1.8') {
+            mavenRepo url: basePath
+        } else {
+            maven {
+              artifactUrls sourceURI
+            }
+        }
     }
     dependencies {
         classpath "com.github.samueltbrown:gradle-cucumber-plugin:${version}"

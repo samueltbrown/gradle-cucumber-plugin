@@ -28,9 +28,9 @@ public class CucumberRunner {
         if (formats != null) {
             for(String format : formats){
                 args.add("--format");
-              if ("asyougo".equals(format)) {
-                format = AsYouGoFormatter.class.getName();
-              }
+                if ("asyougo".equals(format)) {
+                    format = AsYouGoFormatter.class.getName();
+                }
                 args.add(format);
             }
         }

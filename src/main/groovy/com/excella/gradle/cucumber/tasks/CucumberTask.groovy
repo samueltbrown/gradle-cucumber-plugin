@@ -4,7 +4,6 @@ import org.apache.tools.ant.AntClassLoader
 import org.gradle.api.DefaultTask
 import org.gradle.api.UncheckedIOException
 import org.gradle.api.file.FileCollection
-import org.gradle.api.file.FileVisitDetails
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory
@@ -88,25 +87,32 @@ class CucumberTask extends DefaultTask  {
     private List<String> getOrDetectGlueDirs() {
         List<String> dirs = getGlueDirs() ?: []
         List<SourceSet> glueSourceSets = getSourceSets()
-        if (!dirs && glueSourceSets) {
+
+        if (!dirs && !glueSourceSets) {
+            dirs = ['src/test/java'] // default
+
+        } else if (glueSourceSets) {
             glueSourceSets.each { sourceSet ->
                 // add output resources dir for non-Java-class implementations
                 dirs << sourceSet.output.resourcesDir.path
 
-                // add all subdirs of the classes dir for compiled implementations
-                def packages = new TreeSet()
-                def classesDirPathLength = sourceSet.output.classesDir.path.length() + 1
-                sourceSet.output.classesDir.traverse { File file ->
-                    if (file.isFile()) {
-                        String relativePath = file.path.substring(classesDirPathLength)
-                        def packageDir = relativePath.
-                            replaceAll(File.separator, '/'). // make sure we are dealing with slashes
-                            replaceFirst('/[^/]*$', ''). // remove the file name --> keep the parent dir path
-                            replaceAll('/', '.') // turn into a package name
-                        packages << "classpath:${packageDir}".toString()
+                if (sourceSet.output.classesDir.exists()) {
+                    // add all subdirs of the classes dir for compiled implementations
+                    def packages = new TreeSet()
+                    def classesDirPathLength = sourceSet.output.classesDir.path.length() + 1
+
+                    sourceSet.output.classesDir.traverse { File file ->
+                        if (file.isFile()) {
+                            String relativePath = file.path.substring(classesDirPathLength)
+                            def packageDir = relativePath.
+                                replaceAll(File.separator, '/'). // make sure we are dealing with slashes
+                                replaceFirst('/?[^/]*$', ''). // remove the file name --> keep the parent dir path
+                                replaceAll('/', '.') // turn into a package name
+                            packages << "classpath:${packageDir}".toString()
+                        }
                     }
+                    dirs.addAll(packages)
                 }
-                dirs.addAll(packages)
             }
         }
         dirs.unique()

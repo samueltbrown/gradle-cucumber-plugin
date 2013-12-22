@@ -38,15 +38,32 @@ Older versions can be downloaded directly from GitHub like so;
 
 Currently the version is set at <b>0.4.1</b> in the link but this can be updated to the latest version as it becomes available.
 
-Once the plugin has been applied, the project dependencies need to be updated with the archive path to your jar file
-as well as the cucumber-jvm jar file needed for your language.  Below 'groovy' is the chosen language.
+### Running the Tests only
+
+Once the plugin has been applied, the project dependencies need to be updated with the cucumber-jvm jar file needed for
+your language.  Below 'groovy' is the chosen language.
 
       dependencies {
 
-      	cucumberRuntime files("${jar.archivePath}"),
-                        'info.cukes:cucumber-groovy:1.1.5'
+        ...
+
+      	cucumberRuntime 'info.cukes:cucumber-groovy:1.1.5'
 
       }
+
+### Building and Running the Tests
+
+If you have a ```src/cucumber``` source set (similar to ```src/test```), the plugin will automatically detect it and
+setup Java tasks and configurations for you. The "cucumber" code unit depends on "test", the same way "test" depends on
+"main". Also, choose your library dependencies:
+
+      dependencies {
+
+      	cucumberCompile 'info.cukes:cucumber-groovy:1.1.5'
+
+      }
+
+Write your feature files under ```src/cucumber/resources```.
 
 ## Available Tasks
 
@@ -78,6 +95,14 @@ The cucumber task has several configurable properties:
         dryRun = false
     }
 
+#### "asyougo" Formatter
+
+The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario lines as they are evaluated.
+
+    cucumber {
+        formats = ['asyougo']
+    }
+
 ## Prerequisites 
 
 You must use cucumber version <b>1.1.5</b> or higher.
@@ -89,16 +114,17 @@ You must use cucumber version <b>1.1.5</b> or higher.
 * Simplified task configuration
 * Command-line arguments to override task configuration
 
-## Pushing to Maven Central
+
+## Contributing
+
+### Pushing to Maven Central
 
 ```sh
-read -s -p "GPG pass: " GPG_PASS && \
-  read -s -p "Sonatype pass:" SONATYPE_PASS && \
   ./gradlew \
     -Psigning.secretKeyRingFile=path/to/ring.gpg \
-    -Psigning.keyId=KEYID \
+    -Psigning.keyId=GPG_KEYID \
     -Psigning.password=$GPG_PASS \
-    -PsonatypeUsername=username \
+    -PsonatypeUsername=$SONATYPE_USER \
     -PsonatypePassword=$SONATYPE_PASS \
     clean uploadArchives
 ```
