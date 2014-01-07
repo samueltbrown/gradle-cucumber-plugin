@@ -26,7 +26,7 @@ You can apply the plugin using the following ```buildscript```:
           }
 
           dependencies {
-              classpath 'com.github.samueltbrown:gradle-cucumber-plugin:0.4.1'
+              classpath 'com.github.samueltbrown:gradle-cucumber-plugin:0.5'
           }
       }
 
