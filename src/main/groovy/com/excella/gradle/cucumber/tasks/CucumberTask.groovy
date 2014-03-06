@@ -9,8 +9,6 @@ import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger
 
-import java.util.regex.Matcher
-
 /**
  * Defines the cucumber task that can be used in a gradle build file.  This class creates its own
  * classloader for use in task execution and then returns the classpath back to normal when finished
@@ -107,9 +105,9 @@ class CucumberTask extends DefaultTask  {
                         if (file.isFile()) {
                             String relativePath = file.path.substring(classesDirPathLength)
                             def packageDir = relativePath.
-                                replaceAll(Matcher.quoteReplacement(File.separator), '/'). // make sure we are dealing with slashes
+                                replace(File.separator, '/'). // make sure we are dealing with slashes
                                 replaceFirst('/?[^/]*$', ''). // remove the file name --> keep the parent dir path
-                                replaceAll('/', '.') // turn into a package name
+                                replace('/', '.') // turn into a package name
                             packages << "classpath:${packageDir}".toString()
                         }
                     }
