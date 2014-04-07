@@ -29,8 +29,14 @@ public class Helper extends TemporaryFolder {
    */
   public List<String> getCucumberPluginClasspath() throws IOException {
     if (cucumberPluginClasspath != null) return cucumberPluginClasspath;
+    String gradlewScript;
+    if(System.getProperty("os.name").startsWith("Windows")){
+      gradlewScript = "./gradlew.bat";
+    } else {
+      gradlewScript = "./gradlew";
+    }
 
-    ProcessRunner runner = new ProcessRunner(new ProcessBuilder(new File("./gradlew").getAbsolutePath(), "-q", "printMainRuntimeClasspath"));
+    ProcessRunner runner = new ProcessRunner(new ProcessBuilder(new File(gradlewScript).getAbsolutePath(), "-q", "printMainRuntimeClasspath"));
     int exitCode = runner.run();
     if (exitCode != 0) {
       throw new IOException("command failed: " + exitCode);
@@ -40,6 +46,7 @@ public class Helper extends TemporaryFolder {
     String line;
     cucumberPluginClasspath = new ArrayList<String>();
     while ((line = reader.readLine()) != null) {
+      line = line.replace("\\","/"); //ensure windows backslashes are replaced with /
       cucumberPluginClasspath.add(line);
     }
     return cucumberPluginClasspath;

@@ -137,7 +137,7 @@ public class StepDefinitions {
   @Then("^I should see a \"([^\"]*)\" line$")
   public void I_should_see_a_line(String line) throws Throwable {
     assertThat(processRunner.getExitCode(), is(0));
-    assertThat(processRunner.getOut().trim(), containsRegex("^\\s*" + line + "\\s*$", Pattern.MULTILINE));
+    assertThat(processRunner.getOut().trim().replace("\\","/"), containsRegex("^\\s*" + line + "\\s*$", Pattern.MULTILINE));
   }
 
   @Then("^I should(n't| not)? see \"([^\"]*)\"$")
