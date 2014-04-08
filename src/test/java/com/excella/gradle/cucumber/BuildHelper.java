@@ -194,9 +194,15 @@ public class BuildHelper {
 
   public ProcessBuilder processBuilder(boolean useWrapperScript, String... args) {
     List<String> command = new ArrayList<String>();
+    String gradlewScript;
+    if(System.getProperty("os.name").startsWith("Windows")){
+      gradlewScript = "./gradlew.bat";
+    } else {
+      gradlewScript = "./gradlew";
+    }
 
     if (useWrapperScript) {
-      command.add(new File(projectHelper.getProjectDir(), "gradlew").getAbsolutePath());
+      command.add(new File(projectHelper.getProjectDir(), gradlewScript).getAbsolutePath());
     } else {
       command.add("gradle");
     }
