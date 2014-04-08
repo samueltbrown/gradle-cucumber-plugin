@@ -13,6 +13,7 @@ and should support any of the languages utilized in cucumber-jvm.
  * [Samuel Brown] (https://github.com/samueltbrown)
  * [Matthew Lucas] (https://github.com/lucas1000001)
  * [Philippe Vosges] (https://github.com/viphe)
+ * [Paul Bellchambers] (https://github.com/pbellchambers)
 
 ## Using the plugin in your gradle build script
 
@@ -35,8 +36,6 @@ Older versions can be downloaded directly from GitHub like so;
       buildscript {
           apply from: 'https://github.com/samueltbrown/gradle-cucumber-plugin/raw/master/repo/gradle-cucumber-plugin/gradle-cucumber-plugin/0.3/cucumberinit.gradle'
       }
-
-Currently the version is set at <b>0.4.1</b> in the link but this can be updated to the latest version as it becomes available.
 
 ### Running the Tests only
 
@@ -110,7 +109,6 @@ You must use cucumber version <b>1.1.5</b> or higher.
 
 ## Coming Soon
 
-* Use of tags
 * Automatic dependency retrieval and default glue dirs for each jvm language
 * Simplified task configuration
 * Command-line arguments to override task configuration
