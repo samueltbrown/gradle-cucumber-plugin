@@ -1,8 +1,8 @@
 Feature: The Cucumber plugin and Gradle deprecations
 
   # Unless we automate the retrieval of Gradle latest version, this will have to be updated by hand
-  Scenario: The Cucumber plugin should run without warning with Gradle v1.10
-    Given I have a new Gradle project (wrapper v1.10) using Cucumber v1.1.5 for compile
+  Scenario: The Cucumber plugin should run without warning with Gradle v1.11
+    Given I have a new Gradle project (wrapper v1.11) using Cucumber v1.1.5 for compile
     And I write "src/cucumber/resources/com/my/the.feature" as follows
       """
       Feature: Feature Name
