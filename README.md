@@ -90,6 +90,7 @@ The cucumber task has several configurable properties:
                     'src/test/resources/support',
                     'src/test/resources/step_definitions']
         featureDirs = ['src/test/resources/features']
+        tags = ['billing', 'important']
         monochrome = false
         strict = false
         dryRun = false
