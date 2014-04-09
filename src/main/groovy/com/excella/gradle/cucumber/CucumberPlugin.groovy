@@ -11,12 +11,12 @@ import org.gradle.api.tasks.SourceSet
 /**
  * Cucumber plugin definition.  This class initializes the plugin, sets up the convention mapping and adds
  * the cucumber task as an available gradle task.
- * 
+ *
  * @author Samuel Brown
  * @since 0.1
  * @version 0.1
  *
- * 
+ *
  */
 class CucumberPlugin  implements Plugin<Project> {
 
@@ -62,6 +62,20 @@ class CucumberPlugin  implements Plugin<Project> {
             // don't use defaults if the cucumber source set exists
             cucumberConvention.featureDirs = []
             cucumberConvention.glueDirs = []
+
+            if (project.plugins.hasPlugin("idea")) {
+                cucumberSourceSet.allSource.srcDirs.flatten().each { sourceDir ->
+                    if (!cucumberSourceSet.resources.srcDirs.contains(sourceDir)) {
+                        testSource
+                        project.idea.module {
+                            testSourceDirs += sourceDir
+                        }
+                    }
+                }
+                project.idea.module {
+                    scopes.TEST.plus += cucumberCompile
+                }
+            }
         }
 
         project.convention.plugins.cucumber = cucumberConvention
