@@ -66,7 +66,6 @@ class CucumberPlugin  implements Plugin<Project> {
             if (project.plugins.hasPlugin("idea")) {
                 cucumberSourceSet.allSource.srcDirs.flatten().each { sourceDir ->
                     if (!cucumberSourceSet.resources.srcDirs.contains(sourceDir)) {
-                        testSource
                         project.idea.module {
                             testSourceDirs += sourceDir
                         }
