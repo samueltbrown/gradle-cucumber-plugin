@@ -78,6 +78,7 @@ The cucumber task has several configurable properties:
 * `formats`: A list of output formats. (Defaults to <b>pretty</b>)
 * `glueDirs`: A list of directories where stepdefs and supporting code are located (Defaults to <b>src/test/java</b>)
 * `featureDirs`: A list of directories where feature files are located.(Defaults to <b>src/test/resources</b>)
+* `tags`: only scenarios having these tags will be executed if specified.
 * `monochrome`: A boolean value indicating if console output should be one color. (Defaults to <b>false</b>)
 * `strict`: A boolean value indicating whether scenarios should be evaluated strictly. (Defaults to <b>false</b>)
 * `dryRun`: A boolean value indicating whether scenarios should be run as a dry run. (Defaults to <b>false</b>)
