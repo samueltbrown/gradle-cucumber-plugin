@@ -28,7 +28,7 @@ You can apply the plugin using the following ```buildscript```:
           }
 
           dependencies {
-              classpath 'com.github.samueltbrown:gradle-cucumber-plugin:0.5'
+              classpath 'com.github.samueltbrown:gradle-cucumber-plugin:0.6'
           }
       }
 
@@ -108,6 +108,13 @@ The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario 
 ## Prerequisites 
 
 You must use cucumber version <b>1.1.5</b> or higher.
+
+## Release Notes
+
+### v0.6
+
+  * Windows support           
+  * Idea integration: Cucumber source dirs automatically added to modules with test scope
 
 ## Coming Soon
 
