@@ -88,6 +88,14 @@ uploadArchives {
                         id 'viphe'
                         name 'Philippe Vosges'
                     }
+                    developer {
+                        id 'pbellchambers'
+                        name 'Paul Bellchambers'
+                    }
+                    developer {
+                        id 'klunk'
+                        name 'Simon Wiehe'
+                    }
                 }
             }
         }
