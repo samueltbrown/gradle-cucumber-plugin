@@ -47,7 +47,7 @@ your language.  Below 'groovy' is the chosen language.
 
         ...
 
-      	cucumberRuntime 'info.cukes:cucumber-groovy:1.1.5'
+      	cucumberRuntime 'info.cukes:cucumber-groovy:1.1.6'
 
       }
 
@@ -59,7 +59,7 @@ setup Java tasks and configurations for you. The "cucumber" code unit depends on
 
       dependencies {
 
-      	cucumberCompile 'info.cukes:cucumber-groovy:1.1.5'
+      	cucumberCompile 'info.cukes:cucumber-groovy:1.1.6'
 
       }
 
@@ -107,9 +107,13 @@ The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario 
 
 ## Prerequisites 
 
-You must use cucumber version <b>1.1.5</b> or higher.
+You must use cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
+
+### v0.7
+
+  * Bumb cucumber dependency to 1.1.6
 
 ### v0.6
 

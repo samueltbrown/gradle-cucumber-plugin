@@ -1,7 +1,7 @@
 Feature: The "cucumber" task should execute tests
 
   Background:
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.5 for runtime
+    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for runtime
 
   Scenario: Java step definitions and Cucumber features in the test source set
     Given I write "src/test/resources/features/com/company/my.feature" as follows
@@ -27,7 +27,7 @@ Feature: The "cucumber" task should execute tests
         }
       }
       """
-    And I declare the dependency "testCompile 'info.cukes:cucumber-java:1.1.5'"
+    And I declare the dependency "testCompile 'info.cukes:cucumber-java:1.1.6'"
     And I declare the dependency "cucumberRuntime sourceSets.test.output"
     And I add the following task
       """
