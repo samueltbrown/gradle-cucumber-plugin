@@ -40,6 +40,16 @@ Feature: The "cucumber" task should execute tests
           dryRun = false
       }
       """
-    When I successfully run Gradle with "testClasses cucumber"
+    And I add the following task
+      """
+      task otherTask {
+          doLast {
+              println 'otherTask running'
+          }
+      }
+      otherTask.mustRunAfter cucumber
+      """
+    When I successfully run Gradle with "testClasses cucumber otherTask"
     Then I should see a "1 Scenarios \(1 passed\)" line
     And I should see a "2 Steps \(2 passed\)" line
+    And I should see a "otherTask running" line

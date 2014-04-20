@@ -11,8 +11,7 @@ import org.slf4j.Logger
 
 /**
  * Defines the cucumber task that can be used in a gradle build file.  This class creates its own
- * classloader for use in task execution and then returns the classpath back to normal when finished
- * for the rest of the gradle task calls.  This task will call the @see com.excella.gradle.cucumber.CucumberRunner
+ * classloader for use in running cucumber.  This task will call the @see com.excella.gradle.cucumber.CucumberRunner
  * to execute the main cucumber-jvm cli.
  *
  *
@@ -42,16 +41,14 @@ class CucumberTask extends DefaultTask  {
     def cucumber() {
         LOGGER.info "Configuring Cucumber for ${getProject()}"
 
-        ClassLoader originalClassLoader = getClass().classLoader
-        URLClassLoader cucumberClassloader = createCucumberClassLoader()
-
-        try {
-            Thread.currentThread().contextClassLoader = cucumberClassloader
-            executeCucumberRunner()
-        }
-        finally {
-            Thread.currentThread().contextClassLoader = originalClassLoader
-        }
+		runner.runCucumberTests createCucumberClassLoader(),
+				getOrDetectGlueDirs(),
+				getTags(),
+				getFormats(),
+				getStrict(),
+				getMonochrome(),
+				getDryRun(),
+				getFeatureDirs()
 
     }
 
@@ -116,9 +113,5 @@ class CucumberTask extends DefaultTask  {
             }
         }
         dirs.unique()
-    }
-
-    private void executeCucumberRunner(){
-        runner.runCucumberTests getOrDetectGlueDirs(), getTags(), getFormats(), getStrict(), getMonochrome(), getDryRun(), getFeatureDirs()
     }
 }

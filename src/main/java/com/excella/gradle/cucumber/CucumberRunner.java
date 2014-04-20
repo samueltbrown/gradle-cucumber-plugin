@@ -1,5 +1,12 @@
 package com.excella.gradle.cucumber;
 
+import cucumber.runtime.ClassFinder;
+import cucumber.runtime.Runtime;
+import cucumber.runtime.RuntimeOptions;
+import cucumber.runtime.io.MultiLoader;
+import cucumber.runtime.io.ResourceLoader;
+import cucumber.runtime.io.ResourceLoaderClassFinder;
+import org.gradle.api.GradleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +27,7 @@ public class CucumberRunner {
 
     static final Logger LOGGER = LoggerFactory.getLogger(CucumberRunner.class);
 
-    public void runCucumberTests(List<String> glueDirs, List<String> tags, List<String> formats,
+    public void runCucumberTests(ClassLoader cucumberClassLoader, List<String> glueDirs, List<String> tags, List<String> formats,
                                  boolean strict, boolean monochrome, boolean dryRun, List<String> featureDirs) throws Throwable {
         List<String> args = new ArrayList<String>();
 
@@ -71,8 +78,38 @@ public class CucumberRunner {
             logParameters(args);
         }
 
-        cucumber.api.cli.Main.main(args.toArray(new String[args.size()]));
-    }
+		mainRun(cucumberClassLoader, args);
+	}
+
+	private void mainRun(ClassLoader cucumberClassloader, List<String> args) throws Exception {
+
+		// annoyingly, even though we create stuff here with the provided
+		// class loader, AND provide it to the cucumber runtime, the
+		// runtime doesn't pass it on to the backends that it creates that
+		// need a classloader such as the java and groovy
+		// backends - they end up grabbing it from the thread context
+		// anyway
+		ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			Thread.currentThread().setContextClassLoader(cucumberClassloader);
+
+			// this is basically what is inside cucumber.api.cli.Main.main
+			// but that calls System.exit whereas we want to fail the build
+			RuntimeOptions runtimeOptions = new RuntimeOptions(args);
+			ResourceLoader resourceLoader = new MultiLoader(cucumberClassloader);
+			ClassFinder classFinder = new ResourceLoaderClassFinder(resourceLoader, cucumberClassloader);
+			Runtime runtime = new Runtime(resourceLoader, classFinder, cucumberClassloader, runtimeOptions);
+			runtime.run();
+			if(runtime.exitStatus() != 0x0) {
+				throw new GradleException("One or more cucumber tests failed, see reports for details");
+			}
+
+		}
+		finally {
+			Thread.currentThread().setContextClassLoader(originalClassLoader);
+		}
+
+	}
 
     private void logParameters(List<String> args){
         LOGGER.debug("Cucumber runner args: ");
