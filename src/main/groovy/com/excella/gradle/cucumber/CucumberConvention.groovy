@@ -53,7 +53,7 @@ class CucumberConvention {
     /**
      * Version of cucumber-jvm to use to execute cucumber tests
      */
-    String cucumberJvmVersion = '1.1.5'
+    String cucumberJvmVersion = '1.1.6'
 
     /**
      * If specified, the resource directories of sourceSets will be used as feature directories and all other source
