@@ -6,6 +6,7 @@ import cucumber.runtime.RuntimeOptions;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
 import cucumber.runtime.io.ResourceLoaderClassFinder;
+import org.apache.commons.lang.StringUtils;
 import org.gradle.api.GradleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +51,8 @@ public class CucumberRunner {
         }
 
         if (tags != null) {
-            args.add("--tags");
             for(String tag : tags){
+                args.add("--tags");
                 args.add(tag);
             }
         }
