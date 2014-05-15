@@ -63,6 +63,13 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberConvention.featureDirs = []
             cucumberConvention.glueDirs = []
 
+            if (project.plugins.hasPlugin("eclipse")) {
+                project.eclipse.classpath {
+                        plusConfigurations += configurations.cucumberCompile
+                        noExportConfigurations += configurations.cucumberCompile
+                    }
+            }
+
             if (project.plugins.hasPlugin("idea")) {
                 cucumberSourceSet.allSource.srcDirs.flatten().each { sourceDir ->
                     if (!cucumberSourceSet.resources.srcDirs.contains(sourceDir)) {
