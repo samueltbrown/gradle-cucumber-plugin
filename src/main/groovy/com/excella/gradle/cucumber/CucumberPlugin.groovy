@@ -65,8 +65,8 @@ class CucumberPlugin  implements Plugin<Project> {
 
             if (project.plugins.hasPlugin("eclipse")) {
                 project.eclipse.classpath {
-                        plusConfigurations += configurations.cucumberCompile
-                        noExportConfigurations += configurations.cucumberCompile
+                        plusConfigurations += cucumberCompile
+                        noExportConfigurations += cucumberCompile
                     }
             }
 
