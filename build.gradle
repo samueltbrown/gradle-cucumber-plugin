@@ -1,8 +1,19 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
-apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'bintray'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+    }
+}
 
 configurations {
     source {
@@ -44,6 +55,35 @@ artifacts {
 
 signing {
     sign configurations.archives
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact jarSources {
+                classifier 'sources'
+            }
+
+            artifact jarJavadoc {
+                classifier 'javadoc'
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.properties['bintrayUsername']
+    key = project.properties['bintrayApiKey']
+    publications = ['mavenJava']
+    pkg {
+        repo = 'maven'
+        name = 'gradle-cucumber-plugin'
+        desc = 'A Gradle plugin to run Cucumber tests'
+        licenses = ['MIT ']
+        labels = ['gradle', 'cucumber', 'test', 'acceptance']
+    }
 }
 
 uploadArchives {
