@@ -18,6 +18,33 @@ and should support any of the languages utilized in cucumber-jvm.
 
 ## Using the plugin in your gradle build script
 
+### From v0.7 on
+
+To use in Gradle 2.1 and later…
+
+```groovy
+      plugins {
+        id "com.github.samueltbrown.cucumber" version "0.7"
+      }
+```
+
+To use in earlier versions of Gradle…
+
+```groovy
+      buildscript {
+        repositories {
+          jcenter()
+        }
+        dependencies {
+          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.7"
+        }
+      }
+      
+      apply plugin: "com.github.samueltbrown.cucumber"
+```
+
+### Before v0.7
+
 You can apply the plugin using the following ```buildscript```:
 
       apply plugin: 'cucumber'
@@ -111,10 +138,11 @@ You must use cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
 
-### v0.7 (next release)
+### v0.7
 
   * Minimum Cucumber version is now `1.1.6`.
   * Fixed support of multiple tags.
+  * Fixed execution on Windows
 
 ### v0.6
 
@@ -129,6 +157,8 @@ You must use cucumber version <b>1.1.6</b> or higher.
 
 
 ## Contributing
+
+As you would expect, clone, push to GitHub and create a pull request for us to review and merge.
 
 ### Pushing to Maven Central
 
