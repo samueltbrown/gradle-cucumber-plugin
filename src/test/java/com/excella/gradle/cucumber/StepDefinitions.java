@@ -8,6 +8,9 @@ import cucumber.api.java.en.When;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -114,7 +117,10 @@ public class StepDefinitions {
   public void I_run_Gradle_with(String successfully, String gradleArgs) throws Throwable {
     createBuildFile();
 
-    processRunner = new ProcessRunner(buildHelper.processBuilder(gradleArgs.split(" ", -1)));
+    List args = new ArrayList(Arrays.asList(gradleArgs.split(" ", -1)));
+    args.add(0, "-Dorg.gradle.daemon=false");
+
+    processRunner = new ProcessRunner(buildHelper.processBuilder((String[]) args.toArray(new String[args.size()])));
     processRunner.run();
 
     if (StringUtils.isNotBlank(successfully)) {
@@ -142,7 +148,7 @@ public class StepDefinitions {
 
   @Then("^I should(n't| not)? see \"([^\"]*)\"$")
   public void I_shouldn_t_see(String not, String s) throws Throwable {
-    if (not.isEmpty()) {
+    if (not == null || not.isEmpty()) {
       assertThat(processRunner.getOut().trim(), containsRegex(Pattern.quote(s)));
       assertThat(processRunner.getErr().trim(), containsRegex(Pattern.quote(s)));
     } else {
