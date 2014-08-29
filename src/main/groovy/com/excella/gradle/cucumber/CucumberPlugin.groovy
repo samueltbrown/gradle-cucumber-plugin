@@ -65,8 +65,8 @@ class CucumberPlugin  implements Plugin<Project> {
 
             if (project.plugins.hasPlugin("eclipse")) {
                 project.eclipse.classpath {
-                        plusConfigurations += cucumberCompile
-                        noExportConfigurations += cucumberCompile
+                        plusConfigurations += [ cucumberCompile ]
+                        noExportConfigurations += [ cucumberCompile ]
                     }
             }
 
@@ -74,12 +74,12 @@ class CucumberPlugin  implements Plugin<Project> {
                 cucumberSourceSet.allSource.srcDirs.flatten().each { sourceDir ->
                     if (!cucumberSourceSet.resources.srcDirs.contains(sourceDir)) {
                         project.idea.module {
-                            testSourceDirs += sourceDir
+                            testSourceDirs += [ sourceDir ]
                         }
                     }
                 }
                 project.idea.module {
-                    scopes.TEST.plus += cucumberCompile
+                    scopes.TEST.plus += [ cucumberCompile ]
                 }
             }
         }
