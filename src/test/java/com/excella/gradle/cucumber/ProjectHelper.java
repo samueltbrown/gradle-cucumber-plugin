@@ -25,7 +25,15 @@ public class ProjectHelper {
   }
 
   public List<String> getCucumberPluginClasspath() throws IOException {
-    return helper.getCucumberPluginClasspath();
+    List<String> pluginProjectClasspath = helper.getCucumberPluginClasspath();
+    List<String> testProjectClasspath = new ArrayList<String>(pluginProjectClasspath.size());
+    for (String path : pluginProjectClasspath) {
+      if (path.matches(".*/wrapper/dists/gradle-.*".replace('/', File.separatorChar))) {
+        continue;
+      }
+      testProjectClasspath.add(path);
+    }
+    return testProjectClasspath;
   }
 
   public File newDir(String path) throws IOException {

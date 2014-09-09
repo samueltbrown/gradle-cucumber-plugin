@@ -75,16 +75,50 @@ public class BuildHelper {
     return this;
   }
 
-  public void addCucumberPlugin(String cucumberVersion, String cucumberSourceSetName, boolean runtimePlugin)
+  public void addCucumberPlugin(
+    String pluginRepo,
+    String pluginVersion,
+    String cucumberVersion,
+    String cucumberSourceSetName,
+    boolean runtimePlugin)
   throws IOException {
     final boolean isStandardCucumberSourceSet = "cucumber".equals(cucumberSourceSetName);
+    boolean gradle2_1OrAfter = Float.parseFloat(wrapperVersion.replaceFirst("(\\d+\\.\\d+).*", "$1")) >= 2.1;
 
-    buildscriptRepositories("mavenCentral()");
-    for (String path : projectHelper.getCucumberPluginClasspath()) {
-      buildscriptDependency("classpath files('" + path + "')");
+    if (!"jcenter".equals(pluginRepo) || !gradle2_1OrAfter) {
+      if (!"dev".equals(pluginRepo)) {
+        buildscriptRepositories.add(pluginRepo + "()");
+      }
+      if (!"mavenCentral".equals(pluginRepo)) {
+        buildscriptRepositories("mavenCentral()");
+      }
     }
 
-    apply("apply plugin: " + CucumberPlugin.class.getName());
+    if ("dev".equals(pluginVersion)) {
+      for (String path : projectHelper.getCucumberPluginClasspath()) {
+        buildscriptDependency("classpath files('" + path + "')");
+      }
+    } else {
+      if (!gradle2_1OrAfter) {
+        buildscriptDependency("classpath 'com.github.samueltbrown:gradle-cucumber-plugin:" + pluginVersion + "'");
+      }
+    }
+
+    if ("jcenter".equals(pluginRepo)) {
+      if (gradle2_1OrAfter) {
+        apply("plugins {\n" +
+          "  id 'com.github.samueltbrown.cucumber'\n" +
+          "  version '" + pluginVersion + "'\n" +
+          "}");
+
+      } else {
+        apply("apply plugin: 'com.github.samueltbrown.cucumber'");
+      }
+    } else if ("mavenCentral".equals(pluginRepo)) {
+      apply("apply plugin: 'cucumber'");
+    } else {
+      apply("apply plugin: " + CucumberPlugin.class.getName());
+    }
 
     if (!isStandardCucumberSourceSet) {
       // it has to be declared explicitly
@@ -183,7 +217,7 @@ public class BuildHelper {
     System.out.println(script);
     System.out.println("=======================================================================");
 
-    new ProcessRunner(processBuilder("--rerun-tasks", "createWrapper", "--stacktrace")).runStrict();
+    new ProcessRunner(processBuilder("--no-daemon", "--rerun-tasks", "createWrapper", "--stacktrace")).runStrict();
 
     return scriptFile;
   }

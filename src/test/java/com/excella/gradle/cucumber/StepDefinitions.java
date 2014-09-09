@@ -31,10 +31,15 @@ public class StepDefinitions {
   private ProcessRunner processRunner;
   private String cucumberVersion;
   private String cucumberSourceSetName = "cucumber";
+  private String pluginVersion;
+  private String pluginRepo;
   private boolean runtimePlugin;
+  private boolean buildFileCreated;
+
 
   @Before
   public void initHelper() throws IOException {
+    buildFileCreated = false;
     helper.create();
   }
 
@@ -43,7 +48,7 @@ public class StepDefinitions {
     helper.delete();
   }
 
-  @Given("^I have a new Gradle project \\(wrapper v([0-9.]+)\\) using Cucumber v([0-9.]+) for (compile|runtime)$")
+  @Given("^I have a new Gradle project \\(wrapper v([0-9.]+)\\) using Cucumber v([0-9.+]+) for (compile|runtime)$")
   public void I_have_a_new_Gradle_project_wrapper_(String wrapperVersion, String cucumberVersion, String compileRuntime)
   throws Throwable {
     projectHelper = helper.newProjectDir();
@@ -51,6 +56,14 @@ public class StepDefinitions {
     this.cucumberVersion = cucumberVersion;
     this.runtimePlugin = !"compile".equals(compileRuntime);
   }
+
+  @Given("^I configure v([0-9.]+|dev) of the Cucumber plugin from (dev|mavenCentral|jcenter)$")
+  public void i_configure_vn_a_of_the_Cucumber_plugin_from_dev(String pluginVersion, String pluginRepo)
+  throws Throwable {
+    this.pluginVersion = pluginVersion;
+    this.pluginRepo = pluginRepo;
+  }
+
 
   @Given("^my Cucumber source set is \"([^\"]*)\"")
   public void my_Cucumber_source_set_is(String sourceSetName) {
@@ -118,7 +131,8 @@ public class StepDefinitions {
     createBuildFile();
 
     List args = new ArrayList(Arrays.asList(gradleArgs.split(" ", -1)));
-    args.add(0, "-Dorg.gradle.daemon=false");
+    args.add(0, "--stacktrace");
+    args.add(0, "--no-daemon");
 
     processRunner = new ProcessRunner(buildHelper.processBuilder((String[]) args.toArray(new String[args.size()])));
     processRunner.run();
@@ -130,9 +144,12 @@ public class StepDefinitions {
   }
 
   private void createBuildFile() throws IOException {
-    buildHelper.addCucumberPlugin(cucumberVersion, cucumberSourceSetName, runtimePlugin);
+    if (buildFileCreated) return;
+
+    buildHelper.addCucumberPlugin(pluginRepo, pluginVersion, cucumberVersion, cucumberSourceSetName, runtimePlugin);
     buildHelper.task("cucumber { monochrome = true }");
     buildHelper.build();
+    buildFileCreated = true;
   }
 
   @Then("^it should succeed$")
