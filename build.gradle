@@ -89,6 +89,7 @@ bintray {
         desc = 'A Gradle plugin to run Cucumber tests'
         licenses = ['MIT ']
         labels = ['gradle', 'cucumber', 'test', 'acceptance']
+        version.attributes = [ 'gradle-plugin': 'com.github.samueltbrown.cucumber:com.github.samueltbrown:gradle-cucumber-plugin' ]
     }
 }
 

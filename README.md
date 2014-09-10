@@ -24,7 +24,7 @@ To use in Gradle 2.1 and later…
 
 ```groovy
       plugins {
-        id "com.github.samueltbrown.cucumber" version "0.7"
+        id "com.github.samueltbrown.cucumber" version "0.7.1"
       }
 ```
 
@@ -36,7 +36,7 @@ To use in earlier versions of Gradle…
           jcenter()
         }
         dependencies {
-          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.7"
+          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.7.1"
         }
       }
       
@@ -96,7 +96,7 @@ Write your feature files under ```src/cucumber/resources```.
 
 Currently the plugin only supports one task to run your cucumber tests:
 
-      >gradle cucumber
+      > gradle cucumber
 
 ## Cucumber Task Configuration
 
@@ -134,9 +134,13 @@ The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario 
 
 ## Prerequisites 
 
-You must use cucumber version <b>1.1.6</b> or higher.
+You must use Cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
+
+### v0.7.1
+
+  * Dependency on specific version of Cucumber now has a `provided` scope.
 
 ### v0.7
 
