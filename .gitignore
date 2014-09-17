@@ -18,6 +18,9 @@
 /out
 atlassian-ide-plugin.xml
 
+# Dev Tools
+jenvrc
+
 # Mac files
 *.DS_Store
 
