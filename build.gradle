@@ -13,11 +13,12 @@ apply plugin: 'propdeps-eclipse'
 buildscript {
     repositories {
         jcenter()
-        maven { url 'http://repo.spring.io/plugins-release' }
+        //maven { url 'http://repo.spring.io/plugins-release' }
+        maven { url "http://repo.spring.io/plugins-snapshot" }
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
-        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7-SNAPSHOT'
     }
 }
 
