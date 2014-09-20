@@ -24,7 +24,7 @@ To use in Gradle 2.1 and later…
 
 ```groovy
       plugins {
-        id "com.github.samueltbrown.cucumber" version "0.7.1"
+        id "com.github.samueltbrown.cucumber" version "0.7.2"
       }
 ```
 
@@ -36,7 +36,7 @@ To use in earlier versions of Gradle…
           jcenter()
         }
         dependencies {
-          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.7.1"
+          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.7.2"
         }
       }
       
@@ -137,6 +137,10 @@ The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario 
 You must use Cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
+
+### v0.7.2
+
+  * Fixed support of Java 1.6/1.7
 
 ### v0.7.1
 
