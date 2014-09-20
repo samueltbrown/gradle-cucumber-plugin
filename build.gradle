@@ -150,7 +150,7 @@ uploadArchives {
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.10'
+    gradleVersion = '1.12'
 }
 
 task printMainRuntimeClasspath {
