@@ -75,6 +75,14 @@ public class BuildHelper {
     return this;
   }
 
+  public void applyBuiltinPlugin(String pluginId) {
+    apply("apply plugin: '" + pluginId + "'");
+  }
+
+  private boolean isGradle2_1OrAfter() {
+    return Float.parseFloat(wrapperVersion.replaceFirst("(\\d+\\.\\d+).*", "$1")) >= 2.1;
+  }
+
   public void addCucumberPlugin(
     String pluginRepo,
     String pluginVersion,
@@ -83,7 +91,7 @@ public class BuildHelper {
     boolean runtimePlugin)
   throws IOException {
     final boolean isStandardCucumberSourceSet = "cucumber".equals(cucumberSourceSetName);
-    boolean gradle2_1OrAfter = Float.parseFloat(wrapperVersion.replaceFirst("(\\d+\\.\\d+).*", "$1")) >= 2.1;
+    boolean gradle2_1OrAfter = isGradle2_1OrAfter();
 
     if (!"jcenter".equals(pluginRepo) || !gradle2_1OrAfter) {
       if (!"dev".equals(pluginRepo)) {

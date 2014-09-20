@@ -64,6 +64,11 @@ public class StepDefinitions {
     this.pluginRepo = pluginRepo;
   }
 
+  @Given("^I apply the \"([a-zA-Z0-9._-]+)\" builtin? plugin")
+  public void i_apply_the_builtin_plugin(String pluginId)
+  throws Throwable {
+    buildHelper.applyBuiltinPlugin(pluginId);
+  }
 
   @Given("^my Cucumber source set is \"([^\"]*)\"")
   public void my_Cucumber_source_set_is(String sourceSetName) {

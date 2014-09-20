@@ -35,6 +35,7 @@ Feature: The Cucumber plugin and Gradle deprecations
     Then I shouldn't see "deprecated"
 
     # "dev" repository is for the current code off of this project
+    # (v0.6 tests fail on jdk 1.6, because they were compiled for jdk 1.7 - bug fixed since then -)
     Examples:
       | repository   | plugin version | gradle version | cucumber version |
       | dev          | dev            |  1.12          | 1.1.6            |
@@ -42,7 +43,8 @@ Feature: The Cucumber plugin and Gradle deprecations
       | dev          | dev            |  2.0           | 1.1.6            |
       | dev          | dev            |  2.0           | 1.1.+            |
       | dev          | dev            |  2.1           | 1.1.+            |
-      | mavenCentral | 0.6            |  2.0           | 1.1.5            |
-      | mavenCentral | 0.6            |  2.1           | 1.1.5            |
-      | jcenter      | 0.7            |  2.0           | 1.1.6            |
-      | jcenter      | 0.7            |  2.1           | 1.1.6            |
+#      | mavenCentral | 0.6            |  2.0           | 1.1.5            |
+#      | mavenCentral | 0.6            |  2.1           | 1.1.5            |
+      | jcenter      | 0.7.2          |  2.0           | 1.1.6            |
+      | jcenter      | 0.7.2          |  2.1           | 1.1.6            |
+      | jcenter      | 0.7.2          |  2.1           | 1.1.+            |
