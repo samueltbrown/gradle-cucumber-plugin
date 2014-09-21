@@ -4,6 +4,7 @@ import org.apache.tools.ant.AntClassLoader
 import org.gradle.api.DefaultTask
 import org.gradle.api.UncheckedIOException
 import org.gradle.api.file.FileCollection
+import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
 import org.slf4j.LoggerFactory
@@ -41,44 +42,17 @@ class CucumberTask extends DefaultTask  {
     def cucumber() {
         LOGGER.info "Configuring Cucumber for ${getProject()}"
 
-		runner.runCucumberTests createCucumberClassLoader(),
-				getOrDetectGlueDirs(),
-				getTags(),
-				getFormats(),
-				getStrict(),
-				getMonochrome(),
-				getDryRun(),
-				getFeatureDirs()
+        runner.runCucumberTests(
+            getProject().task(type: JavaExec, 'cucumberExec'),
+            getCucumberClasspath(),
+            getOrDetectGlueDirs(),
+            getTags(),
+            getFormats(),
+            getStrict(),
+            getMonochrome(),
+            getDryRun(),
+            getFeatureDirs())
 
-    }
-
-    /**
-     * Creates Cucumber ClassLoader which consists of the Gradle runtime, Cucumber runtime and plugin classpath. The ClassLoader
-     * is using a parent last strategy to make sure that the provided Gradle libraries get loaded only if they can't be
-     * found in the application classpath. Borrowed from Ben Muschko and the gradle tomcat plugin:
-     * https://github.com/bmuschko/gradle-tomcat-plugin
-     *
-     * @return Cucumber ClassLoader
-     */
-    private URLClassLoader createCucumberClassLoader() {
-        ClassLoader rootClassLoader = new AntClassLoader(getClass().classLoader, false)
-        URLClassLoader pluginClassloader = new URLClassLoader(toURLArray(getBuildscriptClasspath().files), rootClassLoader)
-        new URLClassLoader(toURLArray(getCucumberClasspath().files), pluginClassloader)
-    }
-
-    private URL[] toURLArray(Collection<File> files) {
-        List<URL> urls = new ArrayList<URL>(files.size())
-
-        for(File file : files) {
-            try {
-                urls.add(file.toURI().toURL())
-            }
-            catch(MalformedURLException e) {
-                throw new UncheckedIOException(e)
-            }
-        }
-
-        urls.toArray(new URL[urls.size()]);
     }
 
     private List<String> getOrDetectGlueDirs() {
