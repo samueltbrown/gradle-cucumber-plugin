@@ -1,7 +1,6 @@
 Feature: The Cucumber plugin and Gradle deprecations
 
   # Unless we automate the retrieval of Gradle latest version, this will have to be updated by hand
-  @current
   Scenario Outline: The Cucumber plugin should run without warning with Gradle v<gradle version>
     Given I have a new Gradle project (wrapper v<gradle version>) using Cucumber v<cucumber version> for compile
     And I configure v<plugin version> of the Cucumber plugin from <repository>

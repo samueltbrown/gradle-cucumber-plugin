@@ -31,8 +31,8 @@ public class StepDefinitions {
   private ProcessRunner processRunner;
   private String cucumberVersion;
   private String cucumberSourceSetName = "cucumber";
-  private String pluginVersion;
-  private String pluginRepo;
+  private String pluginVersion = "dev";
+  private String pluginRepo = "dev";
   private boolean runtimePlugin;
   private boolean buildFileCreated;
 
