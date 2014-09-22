@@ -38,6 +38,7 @@ dependencies {
 
     def CUCUMBER_VERSION = '1.1.6'
     provided 'info.cukes:cucumber-core:' + CUCUMBER_VERSION
+
     testCompile 'junit:junit:4.11'
     testCompile 'info.cukes:cucumber-junit:' + CUCUMBER_VERSION
     testCompile 'info.cukes:cucumber-java:' + CUCUMBER_VERSION
@@ -151,7 +152,7 @@ uploadArchives {
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '1.12'
 }
 
 task printMainRuntimeClasspath {
