@@ -138,6 +138,10 @@ You must use Cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
 
+### v0.8
+
+  * Cucumber is now executed as a separate process using an underlying JavaExec task.
+
 ### v0.7.2
 
   * Fixed support of Java 1.6/1.7
@@ -167,6 +171,8 @@ You must use Cucumber version <b>1.1.6</b> or higher.
 ## Contributing
 
 As you would expect, clone, push to GitHub and create a pull request for us to review and merge.
+
+Make sure you are using jdk 1.6 when running tests ([jenv](http://jenv.io/) is our friend here).
 
 ### Pushing to Maven Central
 
