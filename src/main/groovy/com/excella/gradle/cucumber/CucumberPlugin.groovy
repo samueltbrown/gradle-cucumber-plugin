@@ -5,8 +5,10 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.FileCollection
+import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.SourceSet
+import org.gradle.process.internal.JvmOptions
 
 /**
  * Cucumber plugin definition.  This class initializes the plugin, sets up the convention mapping and adds
@@ -37,7 +39,9 @@ class CucumberPlugin  implements Plugin<Project> {
                 .setDescription('The Cucumber libraries to be used for this project.')
                 .extendsFrom(project.configurations.getByName('testRuntime'))
 
-        CucumberConvention cucumberConvention = new CucumberConvention(project)
+        CucumberConvention cucumberConvention = project.extensions.create("cucumber", CucumberConvention, project)
+        CucumberJvmOptions jvmOptions =
+            cucumberConvention.extensions.create("jvmOptions", CucumberJvmOptions)
 
         hasCucumberSourceSet = project.file('src/cucumber').exists()
         if (hasCucumberSourceSet) {
@@ -86,11 +90,13 @@ class CucumberPlugin  implements Plugin<Project> {
 
         project.convention.plugins.cucumber = cucumberConvention
 
-        configureCucumberTask(project, cucumberConvention)
+        configureCucumberTask(project, cucumberConvention, jvmOptions)
 
     }
 
-    private def configureCucumberTask(final Project project, CucumberConvention cucumberConvention) {
+    private def configureCucumberTask(
+        final Project project, CucumberConvention cucumberConvention, CucumberJvmOptions jvmOptions)
+    {
         project.tasks.withType(CucumberTask).whenTaskAdded { CucumberTask cucumberTask ->
             cucumberTask.conventionMapping.map('buildscriptClasspath') { project.buildscript.configurations.getByName(CLASSPATH) }
             cucumberTask.conventionMapping.map('cucumberClasspath') { getCucumberClasspath(project, cucumberConvention) }
@@ -102,6 +108,7 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('monochrome') { cucumberConvention.monochrome }
             cucumberTask.conventionMapping.map('dryRun') { cucumberConvention.dryRun }
             cucumberTask.conventionMapping.map('sourceSets') { getCucumberSourceSets(project, cucumberConvention) }
+            cucumberTask.conventionMapping.map('jvmOptions') { jvmOptions }
 
             cucumberTask.runner = project.cucumberRunner
             if (hasCucumberSourceSet) {
@@ -110,6 +117,7 @@ class CucumberPlugin  implements Plugin<Project> {
         }
 
         CucumberTask cucumberTask = project.tasks.create(name: 'cucumber', dependsOn: ['assemble'], type: CucumberTask)
+        cucumberTask.jvmOptions = jvmOptions
         cucumberTask.description = "Run cucumber acceptance tests."
         cucumberTask.group = "Verification"
     }

@@ -1,0 +1,38 @@
+Feature: The Cucumber DSL should allow to set Java fork options
+
+  Scenario: Java VM max heap size should be passed to the Cucumber execution
+    Given I have a new Gradle project (wrapper v1.12) using Cucumber v1.1.8 for compile
+    And I write "src/cucumber/resources/com/my/the.feature" as follows
+    """
+      Feature: Feature Name
+
+        Scenario: Scenario Uno
+          Given precondition A
+          Then assertion B
+      """
+    And I write "src/cucumber/java/com/my/MyStepDefinitions.java" as follows
+    """
+      package com.my;
+
+      import cucumber.api.java.en.*;
+
+      public class MyStepDefinitions {
+        @Given("^precondition A$")
+        public void precondition_A() throws Throwable {
+        }
+
+        @Then("^assertion B$")
+        public void assertion_B() throws Throwable {
+        }
+      }
+      """
+    And I add the following task
+    """
+      cucumber {
+        jvmOptions {
+          maxHeapSize = 1
+        }
+      }
+      """
+    When I run Gradle with "cucumber"
+    Then I should see "Too small initial heap"

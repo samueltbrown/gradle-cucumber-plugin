@@ -7,6 +7,7 @@ import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
+import org.gradle.process.internal.JvmOptions
 import org.slf4j.LoggerFactory
 import org.slf4j.Logger
 
@@ -37,13 +38,17 @@ class CucumberTask extends DefaultTask  {
     FileCollection buildscriptClasspath
     FileCollection cucumberClasspath
     List<SourceSet> sourceSets
+    JvmOptions jvmOptions
 
     @TaskAction
     def cucumber() {
         LOGGER.info "Configuring Cucumber for ${getProject()}"
 
+        final execTask = getProject().task(type: JavaExec, 'cucumberExec')
+        jvmOptions.copyTo(execTask)
+
         runner.runCucumberTests(
-            getProject().task(type: JavaExec, 'cucumberExec'),
+            execTask,
             getCucumberClasspath(),
             getOrDetectGlueDirs(),
             getTags(),

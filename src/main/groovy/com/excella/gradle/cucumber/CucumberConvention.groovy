@@ -1,7 +1,11 @@
 package com.excella.gradle.cucumber
 
 import org.gradle.api.Project
+import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.api.tasks.SourceSet
+import org.gradle.process.JavaForkOptions
+import org.gradle.process.internal.DefaultJavaForkOptions
+import org.gradle.process.internal.JvmOptions
 
 /**
  * Parameters used in the cucumber task.  Convention pattern used to pass these parameters to the cucumber
@@ -52,6 +56,8 @@ class CucumberConvention {
 
     /**
      * Version of cucumber-jvm to use to execute cucumber tests
+     *
+     * @deprecated simply use <code>cucumberCompile</code> dependencies
      */
     String cucumberJvmVersion = '1.1.6'
 
@@ -72,5 +78,4 @@ class CucumberConvention {
         closure.setDelegate this
         closure.call()
     }
-
 }
