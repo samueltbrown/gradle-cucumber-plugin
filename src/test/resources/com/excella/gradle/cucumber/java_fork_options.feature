@@ -38,7 +38,7 @@ Feature: The Cucumber DSL should allow to set Java fork options
     Then I should see "Too small initial heap"
 
 
-    Scenario: Environment variables should be passed to the Cucumber execution
+  Scenario: Environment variables should be passed to the Cucumber execution
     Given I have a new Gradle project (wrapper v1.12) using Cucumber v1.1.8 for compile
     And I write "src/cucumber/resources/com/my/the.feature" as follows
     """
