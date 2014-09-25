@@ -109,6 +109,7 @@ The cucumber task has several configurable properties:
 * `monochrome`: A boolean value indicating if console output should be one color. (Defaults to <b>false</b>)
 * `strict`: A boolean value indicating whether scenarios should be evaluated strictly. (Defaults to <b>false</b>)
 * `dryRun`: A boolean value indicating whether scenarios should be run as a dry run. (Defaults to <b>false</b>)
+* `jvmOptions {}`: a DSL block configuring the spawned process. Options are the same as for [JavaExec](http://www.gradle.org/docs/current/dsl/org.gradle.api.tasks.JavaExec.html).
 
 ### Example task configuration
 
@@ -125,6 +126,7 @@ The cucumber task has several configurable properties:
         
         jvmOptions {
           maxHeapSize = '512m'
+          environment 'ENV', 'staging'
         }
     }
 
