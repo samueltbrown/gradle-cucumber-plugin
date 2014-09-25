@@ -1,15 +1,13 @@
 package com.excella.gradle.cucumber.tasks
 
-import org.apache.tools.ant.AntClassLoader
+import com.excella.gradle.cucumber.CucumberJvmOptions
 import org.gradle.api.DefaultTask
-import org.gradle.api.UncheckedIOException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.TaskAction
-import org.gradle.process.internal.JvmOptions
-import org.slf4j.LoggerFactory
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Defines the cucumber task that can be used in a gradle build file.  This class creates its own
@@ -38,7 +36,7 @@ class CucumberTask extends DefaultTask  {
     FileCollection buildscriptClasspath
     FileCollection cucumberClasspath
     List<SourceSet> sourceSets
-    JvmOptions jvmOptions
+    CucumberJvmOptions jvmOptions
 
     @TaskAction
     def cucumber() {

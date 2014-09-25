@@ -122,6 +122,10 @@ The cucumber task has several configurable properties:
         monochrome = false
         strict = false
         dryRun = false
+        
+        jvmOptions {
+          maxHeapSize = '512m'
+        }
     }
 
 #### "asyougo" Formatter

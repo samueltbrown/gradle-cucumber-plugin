@@ -41,7 +41,7 @@ class CucumberPlugin  implements Plugin<Project> {
 
         CucumberConvention cucumberConvention = project.extensions.create("cucumber", CucumberConvention, project)
         CucumberJvmOptions jvmOptions =
-            cucumberConvention.extensions.create("jvmOptions", CucumberJvmOptions)
+            cucumberConvention.extensions.create("jvmOptions", CucumberJvmOptions, project.getFileResolver())
 
         hasCucumberSourceSet = project.file('src/cucumber').exists()
         if (hasCucumberSourceSet) {
