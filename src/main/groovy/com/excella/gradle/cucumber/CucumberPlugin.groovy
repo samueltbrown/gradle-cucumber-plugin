@@ -5,10 +5,8 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.FileCollection
-import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.SourceSet
-import org.gradle.process.internal.JvmOptions
 
 /**
  * Cucumber plugin definition.  This class initializes the plugin, sets up the convention mapping and adds

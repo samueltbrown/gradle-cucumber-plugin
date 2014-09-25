@@ -1,11 +1,7 @@
 package com.excella.gradle.cucumber
 
 import org.gradle.api.Project
-import org.gradle.api.internal.file.IdentityFileResolver
 import org.gradle.api.tasks.SourceSet
-import org.gradle.process.JavaForkOptions
-import org.gradle.process.internal.DefaultJavaForkOptions
-import org.gradle.process.internal.JvmOptions
 
 /**
  * Parameters used in the cucumber task.  Convention pattern used to pass these parameters to the cucumber
