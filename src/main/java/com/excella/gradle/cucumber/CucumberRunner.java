@@ -52,7 +52,10 @@ public class CucumberRunner {
             for(String format : formats){
                 args.add("--format");
                 if ("asyougo".equals(format)) {
-                    format = AsYouGoFormatter.class.getName();
+                    // deprecated because Cucumber now runs in a different process,
+                    // which does not include this plugin in its classpath
+                    LOGGER.warn("'asyougo' formatter deprecated, reverting to 'pretty'");
+                    format = "pretty";
                 }
                 args.add(format);
             }
