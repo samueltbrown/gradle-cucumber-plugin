@@ -24,7 +24,7 @@ To use in Gradle 2.1 and later…
 
 ```groovy
       plugins {
-        id "com.github.samueltbrown.cucumber" version "0.7.2"
+        id "com.github.samueltbrown.cucumber" version "0.8"
       }
 ```
 
@@ -36,7 +36,7 @@ To use in earlier versions of Gradle…
           jcenter()
         }
         dependencies {
-          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.7.2"
+          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.8"
         }
       }
       
