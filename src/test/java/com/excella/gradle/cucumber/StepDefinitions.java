@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -135,7 +136,8 @@ public class StepDefinitions {
   public void I_run_Gradle_with(String successfully, String gradleArgs) throws Throwable {
     createBuildFile();
 
-    List args = new ArrayList(Arrays.asList(gradleArgs.split(" ", -1)));
+    List args = new ArrayList(
+      gradleArgs.isEmpty() ? Collections.emptyList() : Arrays.asList(gradleArgs.split(" ", -1)));
     args.add(0, "--stacktrace");
     args.add(0, "--no-daemon");
 
