@@ -47,7 +47,7 @@ Feature: The "cucumber" task should execute tests
               println 'otherTask running'
           }
       }
-      otherTask.mustRunAfter cucumber
+      otherTask.mustRunAfter "cucumber"
       """
     When I successfully run Gradle with "testClasses cucumber otherTask"
     Then I should see a "1 Scenarios \(1 passed\)" line

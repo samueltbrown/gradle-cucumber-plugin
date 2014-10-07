@@ -31,8 +31,8 @@ public class StepDefinitions {
   private ProcessRunner processRunner;
   private String cucumberVersion;
   private String cucumberSourceSetName = "cucumber";
-  private String pluginVersion;
-  private String pluginRepo;
+  private String pluginVersion = "dev";
+  private String pluginRepo = "dev";
   private boolean runtimePlugin;
   private boolean buildFileCreated;
 
@@ -171,8 +171,7 @@ public class StepDefinitions {
   @Then("^I should(n't| not)? see \"([^\"]*)\"$")
   public void I_shouldn_t_see(String not, String s) throws Throwable {
     if (not == null || not.isEmpty()) {
-      assertThat(processRunner.getOut().trim(), containsRegex(Pattern.quote(s)));
-      assertThat(processRunner.getErr().trim(), containsRegex(Pattern.quote(s)));
+      assertThat(processRunner.getOut().trim() + "\n" + processRunner.getErr().trim(), containsRegex(Pattern.quote(s)));
     } else {
       assertThat(processRunner.getOut().trim(), not(containsRegex(Pattern.quote(s))));
       assertThat(processRunner.getErr().trim(), not(containsRegex(Pattern.quote(s))));

@@ -109,6 +109,7 @@ The cucumber task has several configurable properties:
 * `monochrome`: A boolean value indicating if console output should be one color. (Defaults to <b>false</b>)
 * `strict`: A boolean value indicating whether scenarios should be evaluated strictly. (Defaults to <b>false</b>)
 * `dryRun`: A boolean value indicating whether scenarios should be run as a dry run. (Defaults to <b>false</b>)
+* `jvmOptions {}`: a DSL block configuring the spawned process. Options are the same as for [JavaExec](http://www.gradle.org/docs/current/dsl/org.gradle.api.tasks.JavaExec.html).
 
 ### Example task configuration
 
@@ -122,6 +123,11 @@ The cucumber task has several configurable properties:
         monochrome = false
         strict = false
         dryRun = false
+        
+        jvmOptions {
+          maxHeapSize = '512m'
+          environment 'ENV', 'staging'
+        }
     }
 
 #### "asyougo" Formatter
@@ -137,6 +143,10 @@ The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario 
 You must use Cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
+
+### v0.8
+
+  * Cucumber is now executed as a separate process using an underlying JavaExec task.
 
 ### v0.7.2
 
@@ -167,6 +177,8 @@ You must use Cucumber version <b>1.1.6</b> or higher.
 ## Contributing
 
 As you would expect, clone, push to GitHub and create a pull request for us to review and merge.
+
+Make sure you are using jdk 1.6 when running tests ([jenv](http://jenv.io/) is our friend here).
 
 ### Pushing to Maven Central
 

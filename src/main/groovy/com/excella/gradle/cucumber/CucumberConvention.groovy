@@ -52,6 +52,8 @@ class CucumberConvention {
 
     /**
      * Version of cucumber-jvm to use to execute cucumber tests
+     *
+     * @deprecated simply use <code>cucumberCompile</code> dependencies
      */
     String cucumberJvmVersion = '1.1.6'
 
@@ -72,5 +74,4 @@ class CucumberConvention {
         closure.setDelegate this
         closure.call()
     }
-
 }

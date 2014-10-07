@@ -17,7 +17,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
-        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.6'
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
     }
 }
 
@@ -37,6 +37,7 @@ dependencies {
 
     def CUCUMBER_VERSION = '1.1.6'
     provided 'info.cukes:cucumber-core:' + CUCUMBER_VERSION
+
     testCompile 'junit:junit:4.11'
     testCompile 'info.cukes:cucumber-junit:' + CUCUMBER_VERSION
     testCompile 'info.cukes:cucumber-java:' + CUCUMBER_VERSION
