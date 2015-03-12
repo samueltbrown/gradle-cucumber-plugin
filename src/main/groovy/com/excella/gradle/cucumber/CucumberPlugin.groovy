@@ -107,6 +107,7 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('dryRun') { cucumberConvention.dryRun }
             cucumberTask.conventionMapping.map('sourceSets') { getCucumberSourceSets(project, cucumberConvention) }
             cucumberTask.conventionMapping.map('jvmOptions') { jvmOptions }
+            cucumberTask.conventionMapping.map('ignoreFailures') {cucumberConvention.ignoreFailures}
 
             cucumberTask.runner = project.cucumberRunner
             if (hasCucumberSourceSet) {

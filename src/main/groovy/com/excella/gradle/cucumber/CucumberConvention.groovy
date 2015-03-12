@@ -51,6 +51,11 @@ class CucumberConvention {
     boolean monochrome = false
 
     /**
+     * Whether to cause a build failure on any test failures.
+     */
+    boolean ignoreFailures = false
+
+    /**
      * Version of cucumber-jvm to use to execute cucumber tests
      *
      * @deprecated simply use <code>cucumberCompile</code> dependencies
