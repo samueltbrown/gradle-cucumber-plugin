@@ -66,7 +66,13 @@ public class BuildHelper {
   }
 
   public BuildHelper apply(String apply) {
-    applies.add(apply);
+    return apply(apply,-1);
+  }
+
+  public BuildHelper apply(String apply, int index) {
+    if(index != -1)
+      applies.add(index,apply);
+    else applies.add(apply);
     return this;
   }
 
@@ -115,9 +121,9 @@ public class BuildHelper {
     if ("jcenter".equals(pluginRepo)) {
       if (gradle2_1OrAfter) {
         apply("plugins {\n" +
-          "  id 'com.github.samueltbrown.cucumber'\n" +
+          "  id 'com.github.samueltbrown.cucumber'" +
           "  version '" + pluginVersion + "'\n" +
-          "}");
+          "}",0);
 
       } else {
         apply("apply plugin: 'com.github.samueltbrown.cucumber'");

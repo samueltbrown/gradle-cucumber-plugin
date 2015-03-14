@@ -1,7 +1,7 @@
 Feature: The Cucumber DSL should allow to set Java fork options
 
   Scenario: Java VM max heap size should be passed to the Cucumber execution
-    Given I have a new Gradle project (wrapper v1.12) using Cucumber v1.1.8 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.8 for compile
     And I write "src/cucumber/resources/com/my/the.feature" as follows
     """
       Feature: Feature Name
@@ -39,7 +39,7 @@ Feature: The Cucumber DSL should allow to set Java fork options
 
 
   Scenario: Environment variables should be passed to the Cucumber execution
-    Given I have a new Gradle project (wrapper v1.12) using Cucumber v1.1.8 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.8 for compile
     And I write "src/cucumber/resources/com/my/the.feature" as follows
     """
       Feature: Feature Name
