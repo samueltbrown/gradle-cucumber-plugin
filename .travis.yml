@@ -6,5 +6,5 @@ jdk:
   - openjdk6
 
 install: ./gradlew assemble -x signArchives
-script: ./gradlew check -x signArchives
+script: ./gradlew check -x signArchives --info
 
