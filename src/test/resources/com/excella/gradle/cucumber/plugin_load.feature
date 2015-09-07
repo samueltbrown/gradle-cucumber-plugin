@@ -1,12 +1,12 @@
 Feature: The Cucumber plugin should load and enrich the Gradle build
 
   Scenario: The Cucumber plugin should declare a task
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for runtime
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for runtime
     When I list tasks
     Then I should see a "cucumber" task
 
   Scenario: The Cucumber plugin should auto-wire src/cucumber as a source set
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
     And I create a "src/cucumber" directory
     And I add the following task
       """
@@ -19,7 +19,7 @@ Feature: The Cucumber plugin should load and enrich the Gradle build
     And I should see a "cucumber" line
 
   Scenario: The cucumber compile classpath should extend from the test compile classpath
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
     And I create a "src/cucumber" directory
     And I add the following task
       """
@@ -31,7 +31,7 @@ Feature: The Cucumber plugin should load and enrich the Gradle build
     Then I should see a "testCompile" line
 
   Scenario: The cucumber runtime classpath should extend from the cucumber and test runtime classpaths
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
     And I create a "src/cucumber" directory
     And I add the following task
       """
@@ -44,7 +44,7 @@ Feature: The Cucumber plugin should load and enrich the Gradle build
     And I should see a "testRuntime" line
 
   Scenario: The cucumber compile classpath should include main/test classes and resources
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
     And I create a "src/cucumber" directory
     And I add the following task
       """
@@ -59,7 +59,7 @@ Feature: The Cucumber plugin should load and enrich the Gradle build
     And I should see a "(.*/)?build/resources/test" line
 
   Scenario: The cucumber runtime classpath should include main/test/cucumber classes and resources
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
     And I create a "src/cucumber" directory
     And I add the following task
       """
@@ -76,7 +76,7 @@ Feature: The Cucumber plugin should load and enrich the Gradle build
     And I should see a "(.*/)?build/resources/cucumber" line
 
   Scenario: The "cucumberClasses" task should depend on the "testClasses" task
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
     And I create a "src/cucumber" directory
     And I add the following task
       """

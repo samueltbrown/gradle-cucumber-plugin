@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.PluginInstantiationException
 import org.gradle.api.tasks.SourceSet
 
 /**
@@ -22,8 +23,17 @@ class CucumberPlugin  implements Plugin<Project> {
 
     static final String CLASSPATH = 'classpath'
     static final String CUCUMBER_SOURCE_SET_NAME = 'cucumber'
-    static final String CUCUMBER_RUNTIME_CONFIGURATION_NAME = CUCUMBER_SOURCE_SET_NAME + 'Runtime'
-    static final String CUCUMBER_COMPILE_CONFIGURATION_NAME = CUCUMBER_SOURCE_SET_NAME + "Compile"
+    static final String CUCUMBER_RUNTIME_CONFIGURATION_NAME
+    static final String CUCUMBER_COMPILE_CONFIGURATION_NAME
+
+    static {
+        try {
+            CUCUMBER_RUNTIME_CONFIGURATION_NAME = CUCUMBER_SOURCE_SET_NAME + 'Runtime'
+            CUCUMBER_COMPILE_CONFIGURATION_NAME = CUCUMBER_SOURCE_SET_NAME + "Compile"
+        }catch(NoClassDefFoundError e){
+            throw new PluginInstantiationException("Cucumber plugin only works with gradle version above 2.0 due to groovy version in older gradle versions")
+        }
+    }
 
     def hasCucumberSourceSet
 
@@ -99,7 +109,7 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('buildscriptClasspath') { project.buildscript.configurations.getByName(CLASSPATH) }
             cucumberTask.conventionMapping.map('cucumberClasspath') { getCucumberClasspath(project, cucumberConvention) }
             cucumberTask.conventionMapping.map('glueDirs') { cucumberConvention.glueDirs }
-			cucumberTask.conventionMapping.map('featureDirs') { getFeaturesDir(project, cucumberConvention) }
+			   cucumberTask.conventionMapping.map('featureDirs') { getFeaturesDir(project, cucumberConvention) }
             cucumberTask.conventionMapping.map('tags') { cucumberConvention.tags }
             cucumberTask.conventionMapping.map('formats') { cucumberConvention.formats }
             cucumberTask.conventionMapping.map('strict') { cucumberConvention.strict }
@@ -107,6 +117,7 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('dryRun') { cucumberConvention.dryRun }
             cucumberTask.conventionMapping.map('sourceSets') { getCucumberSourceSets(project, cucumberConvention) }
             cucumberTask.conventionMapping.map('jvmOptions') { jvmOptions }
+            cucumberTask.conventionMapping.map('ignoreFailures') {cucumberConvention.ignoreFailures}
 
             cucumberTask.runner = project.cucumberRunner
             if (hasCucumberSourceSet) {

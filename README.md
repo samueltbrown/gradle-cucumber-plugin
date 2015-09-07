@@ -1,6 +1,6 @@
 # Gradle Cucumber Plugin
 
-![Cucumber Logo] (http://cukes.info/images/cuke_logo.png)
+![Cucumber Logo] (https://cucumber.io/images/cucumber-logo.svg)
 
 The gradle cucumber plugin provides the ability to run [cucumber](http://cukes.info) acceptance tests directly
 from a gradle build.  The plugin utilizes the cucumber cli provided by the [cucumber-jvm](https://github.com/cucumber/cucumber-jvm) project
@@ -24,7 +24,7 @@ To use in Gradle 2.1 and later…
 
 ```groovy
       plugins {
-        id "com.github.samueltbrown.cucumber" version "0.8"
+        id "com.github.samueltbrown.cucumber" version "0.9"
       }
 ```
 
@@ -36,7 +36,7 @@ To use in earlier versions of Gradle…
           jcenter()
         }
         dependencies {
-          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.8"
+          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.9"
         }
       }
       
@@ -74,7 +74,7 @@ your language.  Below 'groovy' is the chosen language.
 
         ...
 
-      	cucumberRuntime 'info.cukes:cucumber-groovy:1.1.6'
+      	cucumberRuntime 'info.cukes:cucumber-groovy:1.2.2'
 
       }
 
@@ -86,7 +86,7 @@ setup Java tasks and configurations for you. The "cucumber" code unit depends on
 
       dependencies {
 
-      	cucumberCompile 'info.cukes:cucumber-groovy:1.1.6'
+      	cucumberCompile 'info.cukes:cucumber-groovy:1.2.2'
 
       }
 
@@ -110,6 +110,7 @@ The cucumber task has several configurable properties:
 * `strict`: A boolean value indicating whether scenarios should be evaluated strictly. (Defaults to <b>false</b>)
 * `dryRun`: A boolean value indicating whether scenarios should be run as a dry run. (Defaults to <b>false</b>)
 * `jvmOptions {}`: a DSL block configuring the spawned process. Options are the same as for [JavaExec](http://www.gradle.org/docs/current/dsl/org.gradle.api.tasks.JavaExec.html).
+* `ignoreFailures`: A boolean value indicating whether failures from the cucumber runner should be ignored or not. Defaults to <b>false</b>
 
 ### Example task configuration
 
@@ -123,6 +124,7 @@ The cucumber task has several configurable properties:
         monochrome = false
         strict = false
         dryRun = false
+        ignoreFailures = false
         
         jvmOptions {
           maxHeapSize = '512m'
@@ -130,19 +132,17 @@ The cucumber task has several configurable properties:
         }
     }
 
-#### "asyougo" Formatter
-
-The "asyougo" formatter is a hacked "pretty" formatter, which displays scenario lines as they are evaluated.
-
-    cucumber {
-        formats = ['asyougo']
-    }
-
 ## Prerequisites 
 
 You must use Cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
+
+### v0.9
+
+  * Minimum Gradle version is now `2.0`
+  * Uses the `--plugin` rather than `--format` arg for the cucumber runner when using cucumber-jvm `1.2.+`
+  * Introduces `ignoreFailures` convention for test running.
 
 ### v0.8
 

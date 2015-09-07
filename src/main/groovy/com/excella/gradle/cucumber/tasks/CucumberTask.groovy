@@ -33,6 +33,7 @@ class CucumberTask extends DefaultTask  {
     boolean strict
     boolean monochrome
     boolean dryRun
+    boolean ignoreFailures
     FileCollection buildscriptClasspath
     FileCollection cucumberClasspath
     List<SourceSet> sourceSets
@@ -45,17 +46,22 @@ class CucumberTask extends DefaultTask  {
         final execTask = getProject().task(type: JavaExec, 'cucumberExec')
         jvmOptions.copyTo(execTask)
 
-        runner.runCucumberTests(
-            execTask,
-            getCucumberClasspath(),
-            getOrDetectGlueDirs(),
-            getTags(),
-            getFormats(),
-            getStrict(),
-            getMonochrome(),
-            getDryRun(),
-            getFeatureDirs())
-
+        try {
+            runner.runCucumberTests(
+                  execTask,
+                  getCucumberClasspath(),
+                  getOrDetectGlueDirs(),
+                  getTags(),
+                  getFormats(),
+                  getStrict(),
+                  getMonochrome(),
+                  getDryRun(),
+                  getFeatureDirs())
+        }catch(Exception exception){
+            if(!getIgnoreFailures()){
+                throw exception
+            }
+        }
     }
 
     private List<String> getOrDetectGlueDirs() {

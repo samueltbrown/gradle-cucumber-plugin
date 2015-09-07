@@ -1,7 +1,7 @@
 Feature: The "cucumber" task should choose scenarios based on tags
 
   Background:
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
 
   Scenario: Filter scenarios with tag
     Given I write "src/cucumber/resources/com/company/my.feature" as follows

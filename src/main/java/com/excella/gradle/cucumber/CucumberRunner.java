@@ -19,6 +19,8 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Mediates between gradle cucumber task and cucumber-jvm execution.  Builds the argument list and then
@@ -50,7 +52,8 @@ public class CucumberRunner {
 
         if (formats != null) {
             for(String format : formats){
-                args.add("--format");
+                if(cucumberVersionAbove1_2(classpath)) args.add("--plugin");
+                else args.add("--format");
                 if ("asyougo".equals(format)) {
                     // deprecated because Cucumber now runs in a different process,
                     // which does not include this plugin in its classpath
@@ -115,5 +118,23 @@ public class CucumberRunner {
         for(URL url: urls){
             LOGGER.debug(url.getFile());
         }
+    }
+
+    private boolean cucumberVersionAbove1_2(FileCollection classpath){
+        Pattern cucumber = Pattern.compile("cucumber-(?!html)([^-]*?)-((\\d+)\\.(\\d+)(\\.(\\d+))*)\\.jar");
+        for(File f : classpath.getFiles()){
+            Matcher matcher = cucumber.matcher(f.getName());
+            if(matcher.matches()) {
+                LOGGER.debug("{} : {}", f.getName(),matcher.group(2));
+                if(Integer.parseInt(matcher.group(3)) >= 1 && Integer.parseInt(matcher.group(4)) >= 2){
+                    return true;
+                }
+            }
+        }
+
+
+
+
+        return false;
     }
 }

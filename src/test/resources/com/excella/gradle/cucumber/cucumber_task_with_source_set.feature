@@ -1,7 +1,7 @@
 Feature: The "cucumber" task should build and execute acceptance tests declared under "src/cucumber"
 
   Background:
-    Given I have a new Gradle project (wrapper v1.7) using Cucumber v1.1.6 for compile
+    Given I have a new Gradle project (wrapper v2.1) using Cucumber v1.1.6 for compile
 
   Scenario Outline: A feature file with empty step definitions
     Given I write "<feature path>" as follows

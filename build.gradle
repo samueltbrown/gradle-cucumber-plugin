@@ -35,7 +35,7 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
 
-    def CUCUMBER_VERSION = '1.1.6'
+    def CUCUMBER_VERSION = '1.2.2'
     provided 'info.cukes:cucumber-core:' + CUCUMBER_VERSION
 
     testCompile 'junit:junit:4.11'
@@ -151,7 +151,7 @@ uploadArchives {
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.12'
+    gradleVersion = '2.3'
 }
 
 task printMainRuntimeClasspath {
