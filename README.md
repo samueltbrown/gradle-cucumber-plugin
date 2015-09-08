@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/viphe/maven/gradle-cucumber-plugin/images/download.svg) ](https://bintray.com/viphe/maven/gradle-cucumber-plugin/_latestVersion)
+
 # Gradle Cucumber Plugin
 
 ![Cucumber Logo] (https://cucumber.io/images/cucumber-logo.svg)
