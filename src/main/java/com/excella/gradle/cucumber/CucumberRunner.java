@@ -90,7 +90,7 @@ public class CucumberRunner {
             args.add("--dry-run");
         }
         
-        if (expand) {
+        if (expand){
 	    args.add("--expand");
         }
 
