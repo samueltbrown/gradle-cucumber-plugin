@@ -89,6 +89,10 @@ public class CucumberRunner {
         if (dryRun){
             args.add("--dry-run");
         }
+        
+        if (expand){
+	    args.add("--expand");
+        }
 
         if (featureDirs != null) {
         	for(String dir : featureDirs) {
