@@ -1,13 +1,5 @@
 package com.excella.gradle.cucumber;
 
-import cucumber.runtime.ClassFinder;
-import cucumber.runtime.Runtime;
-import cucumber.runtime.RuntimeOptions;
-import cucumber.runtime.io.MultiLoader;
-import cucumber.runtime.io.ResourceLoader;
-import cucumber.runtime.io.ResourceLoaderClassFinder;
-import org.apache.commons.lang.StringUtils;
-import org.gradle.api.GradleException;
 import org.gradle.api.file.FileCollection;
 import org.gradle.api.tasks.JavaExec;
 import org.slf4j.Logger;
@@ -18,7 +10,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +23,7 @@ import java.util.regex.Pattern;
  */
 public class CucumberRunner {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(CucumberRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CucumberRunner.class);
 
     public void runCucumberTests(JavaExec cucumberExec,
                                  FileCollection classpath,
@@ -42,6 +33,7 @@ public class CucumberRunner {
                                  boolean strict,
                                  boolean monochrome,
                                  boolean dryRun,
+                                 boolean expand,
                                  List<String> featureDirs)
     throws Throwable {
         cucumberExec.classpath(classpath);
@@ -89,9 +81,9 @@ public class CucumberRunner {
         if (dryRun){
             args.add("--dry-run");
         }
-        
-        if (expand){
-	    args.add("--expand");
+
+        if (expand) {
+            args.add("--expand");
         }
 
         if (featureDirs != null) {
@@ -135,9 +127,6 @@ public class CucumberRunner {
                 }
             }
         }
-
-
-
 
         return false;
     }

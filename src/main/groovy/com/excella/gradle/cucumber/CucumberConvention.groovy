@@ -41,6 +41,11 @@ class CucumberConvention {
     boolean dryRun = false
 
     /**
+     * Expand examples in outlines.
+     */
+    boolean expand = false
+
+    /**
      * Strict mode, fail if there are pending or skipped tests. Defaults to false
      */
     boolean strict = false

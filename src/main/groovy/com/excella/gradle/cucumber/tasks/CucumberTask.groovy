@@ -33,6 +33,7 @@ class CucumberTask extends DefaultTask  {
     boolean strict
     boolean monochrome
     boolean dryRun
+    boolean expand
     boolean ignoreFailures
     FileCollection buildscriptClasspath
     FileCollection cucumberClasspath
@@ -48,15 +49,16 @@ class CucumberTask extends DefaultTask  {
 
         try {
             runner.runCucumberTests(
-                  execTask,
-                  getCucumberClasspath(),
-                  getOrDetectGlueDirs(),
-                  getTags(),
-                  getFormats(),
-                  getStrict(),
-                  getMonochrome(),
-                  getDryRun(),
-                  getFeatureDirs())
+                execTask,
+                getCucumberClasspath(),
+                getOrDetectGlueDirs(),
+                getTags(),
+                getFormats(),
+                getStrict(),
+                getMonochrome(),
+                getDryRun(),
+                getExpand(),
+                getFeatureDirs())
         }catch(Exception exception){
             if(!getIgnoreFailures()){
                 throw exception

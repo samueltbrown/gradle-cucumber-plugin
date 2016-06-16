@@ -17,6 +17,7 @@ and should support any of the languages utilized in cucumber-jvm.
  * [Philippe Vosges] (https://github.com/viphe)
  * [Paul Bellchambers] (https://github.com/pbellchambers)
  * [Simon Wiehe] (https://github.com/klunk)
+ * [Will Jacobs] (https://github.com/willjacobs)
 
 ## Using the plugin in your gradle build script
 
@@ -26,7 +27,7 @@ To use in Gradle 2.1 and later…
 
 ```groovy
       plugins {
-        id "com.github.samueltbrown.cucumber" version "0.9"
+        id "com.github.samueltbrown.cucumber" version "0.10"
       }
 ```
 
@@ -38,7 +39,7 @@ To use in earlier versions of Gradle…
           jcenter()
         }
         dependencies {
-          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.9"
+          classpath "com.github.samueltbrown:gradle-cucumber-plugin:0.10"
         }
       }
       
@@ -139,6 +140,10 @@ The cucumber task has several configurable properties:
 You must use Cucumber version <b>1.1.6</b> or higher.
 
 ## Release Notes
+
+### v0.10
+
+  * Support for `--expand` option.
 
 ### v0.9
 

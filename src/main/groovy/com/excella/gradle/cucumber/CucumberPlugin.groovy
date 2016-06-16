@@ -115,6 +115,7 @@ class CucumberPlugin  implements Plugin<Project> {
             cucumberTask.conventionMapping.map('strict') { cucumberConvention.strict }
             cucumberTask.conventionMapping.map('monochrome') { cucumberConvention.monochrome }
             cucumberTask.conventionMapping.map('dryRun') { cucumberConvention.dryRun }
+            cucumberTask.conventionMapping.map('expand') { cucumberConvention.expand }
             cucumberTask.conventionMapping.map('sourceSets') { getCucumberSourceSets(project, cucumberConvention) }
             cucumberTask.conventionMapping.map('jvmOptions') { jvmOptions }
             cucumberTask.conventionMapping.map('ignoreFailures') {cucumberConvention.ignoreFailures}
