@@ -2,7 +2,7 @@
 
 # Gradle Cucumber Plugin
 
-![Cucumber Logo] (https://cucumber.io/images/cucumber-logo.svg)
+![Cucumber Logo](https://cucumber.io/images/cucumber-logo.svg)
 
 The gradle cucumber plugin provides the ability to run [cucumber](http://cukes.info) acceptance tests directly
 from a gradle build.  The plugin utilizes the cucumber cli provided by the [cucumber-jvm](https://github.com/cucumber/cucumber-jvm) project
@@ -12,11 +12,11 @@ and should support any of the languages utilized in cucumber-jvm.
 
 ## Contributors
 
- * [Samuel Brown] (https://github.com/samueltbrown)
- * [Matthew Lucas] (https://github.com/lucas1000001)
- * [Philippe Vosges] (https://github.com/viphe)
- * [Paul Bellchambers] (https://github.com/pbellchambers)
- * [Simon Wiehe] (https://github.com/klunk)
+ * [Samuel Brown](https://github.com/samueltbrown)
+ * [Matthew Lucas](https://github.com/lucas1000001)
+ * [Philippe Vosges](https://github.com/viphe)
+ * [Paul Bellchambers](https://github.com/pbellchambers)
+ * [Simon Wiehe](https://github.com/klunk)
 
 ## Using the plugin in your gradle build script
 
@@ -24,7 +24,7 @@ and should support any of the languages utilized in cucumber-jvm.
 
 To use in Gradle 2.1 and later…
 
-```groovy
+```gradle
       plugins {
         id "com.github.samueltbrown.cucumber" version "0.9"
       }
@@ -32,7 +32,7 @@ To use in Gradle 2.1 and later…
 
 To use in earlier versions of Gradle…
 
-```groovy
+```gradle
       buildscript {
         repositories {
           jcenter()
@@ -48,7 +48,7 @@ To use in earlier versions of Gradle…
 ### Before v0.7
 
 You can apply the plugin using the following ```buildscript```:
-
+```gradle
       apply plugin: 'cucumber'
 
       buildscript {
@@ -60,18 +60,18 @@ You can apply the plugin using the following ```buildscript```:
               classpath 'com.github.samueltbrown:gradle-cucumber-plugin:0.6'
           }
       }
-
+```
 Older versions can be downloaded directly from GitHub like so;
-
+```gradle
       buildscript {
           apply from: 'https://github.com/samueltbrown/gradle-cucumber-plugin/raw/master/repo/gradle-cucumber-plugin/gradle-cucumber-plugin/0.3/cucumberinit.gradle'
       }
-
+```
 ### Running the Tests only
 
 Once the plugin has been applied, the project dependencies need to be updated with the cucumber-jvm jar file needed for
 your language.  Below 'groovy' is the chosen language.
-
+```gradle
       dependencies {
 
         ...
@@ -79,19 +79,20 @@ your language.  Below 'groovy' is the chosen language.
       	cucumberRuntime 'info.cukes:cucumber-groovy:1.2.2'
 
       }
+```
 
 ### Building and Running the Tests
 
-If you have a ```src/cucumber``` source set (similar to ```src/test```), the plugin will automatically detect it and
+If you have a `src/cucumber` source set (similar to `src/test`), the plugin will automatically detect it and
 setup Java tasks and configurations for you. The "cucumber" code unit depends on "test", the same way "test" depends on
 "main". Also, choose your library dependencies:
-
+```gradle
       dependencies {
 
       	cucumberCompile 'info.cukes:cucumber-groovy:1.2.2'
 
       }
-
+```
 Write your feature files under ```src/cucumber/resources```.
 
 ## Available Tasks
@@ -115,7 +116,7 @@ The cucumber task has several configurable properties:
 * `ignoreFailures`: A boolean value indicating whether failures from the cucumber runner should be ignored or not. Defaults to <b>false</b>
 
 ### Example task configuration
-
+```gradle
     cucumber {
         formats = ['pretty','json:build/cucumber.json','junit:build/cucumber.xml']
         glueDirs = ['src/test/resources/env',
@@ -133,7 +134,7 @@ The cucumber task has several configurable properties:
           environment 'ENV', 'staging'
         }
     }
-
+```
 ## Prerequisites 
 
 You must use Cucumber version <b>1.1.6</b> or higher.
