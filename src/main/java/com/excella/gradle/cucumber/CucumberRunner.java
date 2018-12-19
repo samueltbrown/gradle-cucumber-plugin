@@ -1,26 +1,17 @@
 package com.excella.gradle.cucumber;
 
-import cucumber.runtime.ClassFinder;
-import cucumber.runtime.Runtime;
-import cucumber.runtime.RuntimeOptions;
-import cucumber.runtime.io.MultiLoader;
-import cucumber.runtime.io.ResourceLoader;
-import cucumber.runtime.io.ResourceLoaderClassFinder;
-import org.apache.commons.lang.StringUtils;
-import org.gradle.api.GradleException;
-import org.gradle.api.file.FileCollection;
-import org.gradle.api.tasks.JavaExec;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.gradle.api.file.FileCollection;
+import org.gradle.api.tasks.JavaExec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Mediates between gradle cucumber task and cucumber-jvm execution.  Builds the argument list and then
