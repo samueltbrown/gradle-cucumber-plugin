@@ -76,22 +76,24 @@ class CucumberTask extends DefaultTask  {
                 // add output resources dir for non-Java-class implementations
                 dirs << sourceSet.output.resourcesDir.path
 
-                if (sourceSet.output.classesDir.exists()) {
-                    // add all subdirs of the classes dir for compiled implementations
-                    def packages = new TreeSet()
-                    def classesDirPathLength = sourceSet.output.classesDir.path.length() + 1
+                sourceSet.output.classesDirs.each { classesDir ->
+                    if (classesDir.exists()) {
+                        // add all subdirs of the classes dir for compiled implementations
+                        def packages = new TreeSet()
+                        def classesDirPathLength = classesDir.path.length() + 1
 
-                    sourceSet.output.classesDir.traverse { File file ->
-                        if (file.isFile()) {
-                            String relativePath = file.path.substring(classesDirPathLength)
-                            def packageDir = relativePath.
-                                replace(File.separator, '/'). // make sure we are dealing with slashes
-                                replaceFirst('/?[^/]*$', ''). // remove the file name --> keep the parent dir path
-                                replace('/', '.') // turn into a package name
-                            packages << "classpath:${packageDir}".toString()
+                        classesDir.traverse { File file ->
+                            if (file.isFile()) {
+                                String relativePath = file.path.substring(classesDirPathLength)
+                                def packageDir = relativePath.
+                                        replace(File.separator, '/'). // make sure we are dealing with slashes
+                                        replaceFirst('/?[^/]*$', ''). // remove the file name --> keep the parent dir path
+                                        replace('/', '.') // turn into a package name
+                                packages << "classpath:${packageDir}".toString()
+                            }
                         }
+                        dirs.addAll(packages)
                     }
-                    dirs.addAll(packages)
                 }
             }
         }
